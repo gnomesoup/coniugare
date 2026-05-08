@@ -4,7 +4,7 @@ A fast, keyboard-friendly Italian verb conjugation quiz inspired by Monkeytype. 
 
 ## Features
 
-- 100 common Italian verbs with English translations.
+- 217 common Italian verbs with English translations.
 - 6 practice forms:
   - presente indicativo
   - passato prossimo
