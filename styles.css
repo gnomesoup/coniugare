@@ -229,7 +229,7 @@ h2 {
   flex-wrap: wrap;
   gap: 0.7rem;
   width: 100%;
-  margin-top: 0.25rem;
+  margin-top: 1rem;
 }
 
 .picker {
@@ -404,24 +404,43 @@ h2 {
   line-height: 1;
 }
 
-.toggle {
-  display: grid;
-  gap: 0.3rem;
+.prompt-toggle {
+  --prompt-gap: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: var(--prompt-gap);
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--panel);
+  padding: 0.72rem var(--prompt-gap);
+}
+
+.prompt-toggle button {
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
   color: var(--muted);
+  margin: 0;
+  padding: 0;
   font-size: 0.82rem;
-  text-align: left;
+  font-weight: 800;
 }
 
-.bar-field {
-  width: 12rem;
+.prompt-toggle button:hover,
+.prompt-toggle button:focus-visible {
+  color: var(--fg-bright);
+  background: transparent;
 }
 
-.toggle {
-  width: 13rem;
+.prompt-toggle button.selected {
+  background: transparent;
+  color: var(--yellow);
 }
 
-.bar-field.toggle {
-  width: 13.5rem;
+.prompt-toggle button.selected:hover,
+.prompt-toggle button.selected:focus-visible {
+  background: transparent;
+  color: var(--yellow);
 }
 
 .answer-grid {
@@ -448,6 +467,7 @@ h2 {
   align-items: baseline;
   gap: 0.45rem;
   min-width: 0;
+  padding-left: 1rem;
   white-space: nowrap;
   text-align: left;
 }
@@ -539,7 +559,7 @@ h2 {
     justify-content: flex-start;
   }
 
-  .toggle {
+  .prompt-toggle {
     width: 100%;
   }
 

@@ -231,7 +231,11 @@ function handleChoiceSearchKeydown(event, container) {
 }
 
 function renderSettings() {
-  els.promptLanguage.value = state.promptLanguage;
+  els.promptLanguage.querySelectorAll("button").forEach((button) => {
+    const selected = button.dataset.promptLanguage === state.promptLanguage;
+    button.classList.toggle("selected", selected);
+    button.setAttribute("aria-pressed", selected.toString());
+  });
   els.verbCount.textContent = `${state.selectedVerbIds.length} selected`;
   els.formCount.textContent = `${state.selectedFormIds.length} selected`;
 
@@ -512,9 +516,13 @@ function closePickerOnEnter(event, picker) {
   closePicker(picker);
 }
 
-els.promptLanguage.addEventListener("change", (event) => {
-  state.promptLanguage = event.target.value;
+els.promptLanguage.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-prompt-language]");
+  if (!button) return;
+
+  state.promptLanguage = button.dataset.promptLanguage;
   saveState();
+  renderSettings();
   renderQuiz();
 });
 

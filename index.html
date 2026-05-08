@@ -55,14 +55,11 @@
             </div>
           </details>
 
-          <label class="bar-field toggle" title="Switch prompt language">
-            <span>Prompt</span>
-            <select id="promptLanguage" aria-label="Prompt language">
-              <option value="both">Italian + English</option>
-              <option value="it">Italian</option>
-              <option value="en">English</option>
-            </select>
-          </label>
+          <div id="promptLanguage" class="prompt-toggle" role="group" aria-label="Prompt language" title="Switch prompt language">
+            <button type="button" data-prompt-language="both">it+en</button>
+            <button type="button" data-prompt-language="it">it</button>
+            <button type="button" data-prompt-language="en">en</button>
+          </div>
         </div>
       </header>
 
