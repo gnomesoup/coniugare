@@ -38,7 +38,7 @@ http://localhost:5173
 
 1. Choose one or more verbs from **Verbs**.
 2. Choose one or more conjugation forms from **Forms**.
-3. Optionally enter your name and pick a prompt language.
+3. Optionally pick a prompt language.
 4. Type the Italian conjugation for each pronoun.
 5. Select **Check answers** to see your score and corrections.
 6. Move to another random verb/form round with the arrow button.
@@ -58,25 +58,27 @@ http://localhost:5173
 
 ```text
 .
-├── index.html   # App markup
-├── styles.css   # Theme and layout
-├── app.js       # Verb data, conjugation logic, quiz behavior
+├── index.html      # App markup
+├── styles.css      # Theme and layout
+├── verbs.js        # Pronouns, form labels, verb data, irregular forms
+├── conjugation.js  # Regular conjugation generation
+├── app.js          # State, rendering, and event handling
 ├── README.md
 └── LICENSE
 ```
 
 ## Development notes
 
-Coniugare is a dependency-free static web app. The verb list, irregular forms, generated regular conjugations, state handling, and UI events all live in `app.js`.
+Coniugare is a dependency-free static web app split into small plain JavaScript files loaded by `index.html`.
 
 To add or adjust content, edit:
 
-- `VERB_DATA` for available verbs, auxiliaries, participles, and `-isc-` markers.
-- `IRREGULAR_FORMS` for verb-specific irregular conjugations.
-- `FORMS` for supported tenses/forms and prompt labels.
+- `verbs.js` for `VERB_DATA`, `IRREGULAR_FORMS`, pronouns, and supported form labels.
+- `conjugation.js` for regular conjugation generation.
+- `app.js` for state management, rendering, and event handling.
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+This project is licensed under the GNU General Public License v3.0. See [LICENSE](LICENSE) for details.
 
-No third-party JavaScript or CSS libraries are bundled with this project.
+No third-party JavaScript or CSS libraries are bundled with this project. The color palette is adapted from Spacemacs, which is GPL-3.0 licensed.

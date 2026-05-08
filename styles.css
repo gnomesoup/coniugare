@@ -1,34 +1,24 @@
 :root {
   color-scheme: dark;
-  /* Spacemacs dark GUI palette from nashamri/spacemacs-theme. */
+  /* Palette adapted from Spacemacs (GPL-3.0). */
   --bg: #292b2e;
   --bg-alt: #212026;
   --bg-alt-2: #100a14;
   --bg-alt-3: #0a0814;
   --panel: #222226;
-  --panel-hover: #42444a;
   --fg: #b2b2b2;
   --fg-bright: #e3dedd;
   --muted: #686868;
   --border: #5d4d7a;
-  --highlight: #444155;
   --highlight-dim: #3b314d;
   --blue: #4f97d7;
-  --blue-bg: #293239;
-  --aqua: #2d9574;
   --green: #67b11d;
   --success: #86dc2f;
   --green-bg: #293235;
   --yellow: #EEAD0E;
-  --yellow-bg: #32322c;
-  --orange: #dc752f;
   --red: #f2241f;
-  --err: #e0211d;
   --red-bg: #3c2a2c;
-  --violet: #a31db1;
   --func: #bc6ec5;
-  --const: #a45bad;
-  --cyan: #28def0;
   --shadow: 0 24px 80px rgba(10, 8, 20, 0.42);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -77,8 +67,8 @@ summary:hover {
 }
 
 button:focus-visible {
-  border-color: var(--yellow);
-  outline: 3px solid var(--yellow);
+  border-color: var(--blue);
+  outline: 3px solid var(--blue);
   outline-offset: 0;
 }
 
@@ -102,7 +92,7 @@ button.primary:hover {
 
 button.primary:focus-visible {
   background: var(--yellow);
-  border-color: var(--yellow);
+  border-color: var(--blue);
   color: var(--bg-alt-3);
 }
 
@@ -119,8 +109,8 @@ select {
 input:focus,
 select:focus,
 summary:focus-visible {
-  border-color: var(--yellow);
-  outline: 3px solid var(--yellow);
+  border-color: var(--blue);
+  outline: 3px solid var(--blue);
   outline-offset: 0;
   box-shadow: none;
 }
@@ -142,23 +132,51 @@ p {
 
 h1 {
   color: var(--fg-bright);
-  font-size: clamp(3rem, 10vw, 7rem);
+  font-size: 1em;
   letter-spacing: -0.085em;
   line-height: 0.85;
+}
+
+.brand {
+  /* Anchor the subtitle on the dot of the “i” in coniugare. */
+  --tagline-x: calc(1.52em + 4px);
+  --tagline-y: 0.18em;
+  position: relative;
+  display: inline-block;
+  font-size: clamp(3rem, 10vw, 7rem);
+}
+
+.tagline {
+  position: absolute;
+  left: var(--tagline-x);
+  top: calc(var(--tagline-y) - 7px);
+  color: var(--yellow);
+  line-height: 1;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.tagline span {
+  position: absolute;
+  top: 0;
+  font-size: clamp(0.7rem, 1.45vw, 0.95rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  transform: translateY(-50%);
+}
+
+.tagline-before {
+  right: calc(0.52em + 7.5px);
+}
+
+.tagline-after {
+  left: calc(0.52em + 7.5px);
 }
 
 h2 {
   color: var(--fg-bright);
   font-size: clamp(1.55rem, 4vw, 2.4rem);
   letter-spacing: -0.04em;
-}
-
-.eyebrow {
-  color: var(--yellow);
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-size: 0.75rem;
 }
 
 .muted {
@@ -367,8 +385,7 @@ h2 {
   line-height: 1;
 }
 
-.toggle,
-.name-field {
+.toggle {
   display: grid;
   gap: 0.3rem;
   color: var(--muted);
@@ -382,14 +399,6 @@ h2 {
 
 .toggle {
   width: 13rem;
-}
-
-.name-field {
-  width: 10rem;
-}
-
-.bar-field.name-field {
-  width: 11rem;
 }
 
 .bar-field.toggle {
@@ -506,8 +515,7 @@ h2 {
     justify-content: flex-start;
   }
 
-  .toggle,
-  .name-field {
+  .toggle {
     width: 100%;
   }
 

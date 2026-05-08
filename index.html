@@ -3,14 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'" />
     <title>Coniugare</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="app-shell">
       <header class="hero">
-        <p id="welcome" class="eyebrow">Welcome</p>
-        <h1>coniugare</h1>
+        <div class="brand">
+          <h1>coniugare</h1>
+          <p class="tagline" aria-label="italian verb conjugation quiz">
+            <span class="tagline-before">italian</span>
+            <span class="tagline-after">verb conjugation quiz</span>
+          </p>
+        </div>
 
         <div class="picker-bar" aria-label="Quiz settings">
           <details id="verbPicker" class="picker">
@@ -45,11 +51,6 @@
             </div>
           </details>
 
-          <label class="bar-field name-field" title="Remember me settings">
-            <span>Name</span>
-            <input id="learnerName" type="text" autocomplete="name" placeholder="Your name" />
-          </label>
-
           <label class="bar-field toggle" title="Switch prompt language">
             <span>Prompt</span>
             <select id="promptLanguage" aria-label="Prompt language">
@@ -68,7 +69,7 @@
             <p id="quizSubtitle" class="muted">Choose at least one verb and one form to start.</p>
           </div>
           <div class="round-actions" aria-label="Round actions">
-            <button id="newRound" class="icon-button" type="button" title="Clear entries" aria-label="Clear entries">↻</button>
+            <button id="clearAnswers" class="icon-button" type="button" title="Clear entries" aria-label="Clear entries">↻</button>
             <button id="nextRound" class="icon-button primary" type="button" title="Next verb" aria-label="Next verb">→</button>
           </div>
         </div>
@@ -85,6 +86,8 @@
       </section>
     </main>
 
+    <script src="verbs.js"></script>
+    <script src="conjugation.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
