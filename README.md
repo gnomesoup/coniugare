@@ -34,6 +34,16 @@ Then visit:
 http://localhost:5173
 ```
 
+## Configuration
+
+The footer contact address is read from `config.js`. To generate that file from an environment variable, run:
+
+```bash
+CONIUGARE_CONTACT_EMAIL=you@example.com node scripts/write-config.js
+```
+
+Static hosts that support build commands can run the same command before publishing the site.
+
 ## How to use
 
 1. Choose one or more verbs from **Verbs**.
@@ -59,10 +69,14 @@ http://localhost:5173
 ```text
 .
 ├── index.html      # App markup
+├── legal.html      # Cookies, privacy, terms, and license notes
+├── config.js       # Runtime configuration
 ├── styles.css      # Theme and layout
 ├── verbs.js        # Pronouns, form labels, verb data, irregular forms
 ├── conjugation.js  # Regular conjugation generation
 ├── app.js          # State, rendering, and event handling
+├── scripts/
+│   └── write-config.js
 ├── README.md
 └── LICENSE
 ```

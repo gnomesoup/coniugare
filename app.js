@@ -29,10 +29,12 @@ const els = {
   quizSubtitle: document.querySelector("#quizSubtitle"),
   quizForm: document.querySelector("#quizForm"),
   hintText: document.querySelector("#hintText"),
+  contactLink: document.querySelector("#contactLink"),
   checkAnswers: document.querySelector("#checkAnswers"),
 };
 
 const IS_MAC = /mac|iphone|ipad|ipod/i.test(navigator.userAgentData?.platform || navigator.platform || "");
+const DEFAULT_CONTACT_EMAIL = "hello@coniugare.app";
 
 let state = loadState();
 let answersChecked = false;
@@ -104,6 +106,14 @@ function renderKeyboardHint() {
     shortcutFragment("Esc", "Esc"),
     " refresh.",
   );
+}
+
+function renderContactLink() {
+  const configuredEmail = window.CONIUGARE_CONFIG?.contactEmail;
+  const email = (typeof configuredEmail === "string" ? configuredEmail : DEFAULT_CONTACT_EMAIL)
+    .replace(/[\r\n]/g, "")
+    .trim() || DEFAULT_CONTACT_EMAIL;
+  els.contactLink.href = `mailto:${email}`;
 }
 
 function normalize(value) {
@@ -404,7 +414,7 @@ function renderQuiz() {
     it.textContent = pronoun.it;
     const en = document.createElement("span");
     en.className = "muted";
-    en.textContent = `— ${pronoun.en}`;
+    en.textContent = pronoun.en;
     pronounEl.append(it, en);
 
     const input = document.createElement("input");
@@ -703,5 +713,6 @@ document.addEventListener("keydown", (event) => {
 });
 
 renderKeyboardHint();
+renderContactLink();
 render();
 requestAnimationFrame(() => document.querySelector(".answer-input")?.focus());
