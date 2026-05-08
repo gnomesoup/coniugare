@@ -25,7 +25,7 @@ const VERB_DATA = [
   { id: "volere", it: "volere", en: "to want", irregular: true, aux: "avere", participle: "voluto" },
   { id: "dovere", it: "dovere", en: "must / to have to", irregular: true, aux: "avere", participle: "dovuto" },
   { id: "sapere", it: "sapere", en: "to know", irregular: true, aux: "avere", participle: "saputo" },
-  { id: "stare", it: "stare", en: "to stay / be", irregular: true, aux: "avere", participle: "stato" },
+  { id: "stare", it: "stare", en: "to stay / be", irregular: true, aux: "essere", participle: "stato" },
   { id: "andare", it: "andare", en: "to go", irregular: true, aux: "essere", participle: "andato" },
   { id: "venire", it: "venire", en: "to come", irregular: true, aux: "essere", participle: "venuto" },
   { id: "dare", it: "dare", en: "to give", irregular: true, aux: "avere", participle: "dato" },
@@ -113,7 +113,7 @@ const VERB_DATA = [
   { id: "vendere", it: "vendere", en: "to sell", irregular: false, aux: "avere", participle: "venduto" },
   { id: "decidere", it: "decidere", en: "to decide", irregular: true, aux: "avere", participle: "deciso" },
   { id: "permettere", it: "permettere", en: "to allow", irregular: true, aux: "avere", participle: "permesso" },
-  { id: "accadere", it: "accadere", en: "to happen / occur", irregular: false, aux: "essere", participle: "accaduto" },
+  { id: "accadere", it: "accadere", en: "to happen / occur", irregular: true, aux: "essere", participle: "accaduto" },
   { id: "ottenere", it: "ottenere", en: "to obtain", irregular: true, aux: "avere", participle: "ottenuto" },
   { id: "riconoscere", it: "riconoscere", en: "to recognize", irregular: false, aux: "avere", participle: "riconosciuto" },
   { id: "costruire", it: "costruire", en: "to build", irregular: false, aux: "avere", participle: "costruito", isc: true },
@@ -135,7 +135,7 @@ const IRREGULAR_FORMS = {
     congiuntivo_presente: ["abbia", "abbia", "abbia", "abbiamo", "abbiate", "abbiano"],
   },
   fare: {
-    presente: ["faccio", "fai", "fa", "facciamo", "fate", "fanno"],
+    presente: ["faccio/fo", "fai", "fa", "facciamo", "fate", "fanno"],
     imperfetto: ["facevo", "facevi", "faceva", "facevamo", "facevate", "facevano"],
     futuro: ["farò", "farai", "farà", "faremo", "farete", "faranno"],
     condizionale: ["farei", "faresti", "farebbe", "faremmo", "fareste", "farebbero"],
@@ -155,16 +155,16 @@ const IRREGULAR_FORMS = {
     congiuntivo_presente: ["possa", "possa", "possa", "possiamo", "possiate", "possano"],
   },
   volere: {
-    presente: ["voglio", "vuoi", "vuole", "vogliamo", "volete", "vogliono"],
+    presente: ["voglio/vò", "vuoi", "vuole", "vogliamo", "volete", "vogliono"],
     futuro: ["vorrò", "vorrai", "vorrà", "vorremo", "vorrete", "vorranno"],
     condizionale: ["vorrei", "vorresti", "vorrebbe", "vorremmo", "vorreste", "vorrebbero"],
     congiuntivo_presente: ["voglia", "voglia", "voglia", "vogliamo", "vogliate", "vogliano"],
   },
   dovere: {
-    presente: ["devo", "devi", "deve", "dobbiamo", "dovete", "devono"],
+    presente: ["devo/debbo", "devi", "deve", "dobbiamo", "dovete", "devono/debbono"],
     futuro: ["dovrò", "dovrai", "dovrà", "dovremo", "dovrete", "dovranno"],
     condizionale: ["dovrei", "dovresti", "dovrebbe", "dovremmo", "dovreste", "dovrebbero"],
-    congiuntivo_presente: ["debba", "debba", "debba", "dobbiamo", "dobbiate", "debbano"],
+    congiuntivo_presente: ["deva/debba", "deva/debba", "deva/debba", "dobbiamo", "dobbiate", "devano/debbano"],
   },
   sapere: {
     presente: ["so", "sai", "sa", "sappiamo", "sapete", "sanno"],
@@ -197,9 +197,10 @@ const IRREGULAR_FORMS = {
     congiuntivo_presente: ["dia", "dia", "dia", "diamo", "diate", "diano"],
   },
   vedere: {
-    futuro: ["vedrò", "vedrai", "vedrà", "vedremo", "vedrete", "vedranno"],
-    condizionale: ["vedrei", "vedresti", "vedrebbe", "vedremmo", "vedreste", "vedrebbero"],
-    congiuntivo_presente: ["veda", "veda", "veda", "vediamo", "vediate", "vedano"],
+    presente: ["vedo/veggo", "vedi", "vede", "vediamo", "vedete", "vedono/veggono"],
+    futuro: ["vedrò/vederò", "vedrai/vederai", "vedrà/vederà", "vedremo/vederemo", "vedrete/vederete", "vedranno/vederanno"],
+    condizionale: ["vedrei/vederei", "vedresti/vederesti", "vedrebbe/vederebbe", "vedremmo/vederemmo", "vedreste/vedereste", "vedrebbero/vederebbero"],
+    congiuntivo_presente: ["veda/vegga", "veda/vegga", "veda/vegga", "vediamo", "vediate", "vedano/veggano"],
   },
   uscire: {
     presente: ["esco", "esci", "esce", "usciamo", "uscite", "escono"],
@@ -211,6 +212,8 @@ const IRREGULAR_FORMS = {
   },
   morire: {
     presente: ["muoio", "muori", "muore", "moriamo", "morite", "muoiono"],
+    futuro: ["morirò/morrò", "morirai/morrai", "morirà/morrà", "moriremo/morremo", "morirete/morrete", "moriranno/morranno"],
+    condizionale: ["morirei/morrei", "moriresti/morresti", "morirebbe/morrebbe", "moriremmo/morremmo", "morireste/morreste", "morirebbero/morrebbero"],
     congiuntivo_presente: ["muoia", "muoia", "muoia", "moriamo", "moriate", "muoiano"],
   },
   bere: {
@@ -221,8 +224,8 @@ const IRREGULAR_FORMS = {
     congiuntivo_presente: ["beva", "beva", "beva", "beviamo", "beviate", "bevano"],
   },
   piacere: {
-    presente: ["piaccio", "piaci", "piace", "piacciamo", "piacete", "piacciono"],
-    congiuntivo_presente: ["piaccia", "piaccia", "piaccia", "piacciamo", "piacciate", "piacciano"],
+    presente: ["piaccio", "piaci", "piace", "piacciamo/piaciamo", "piacete", "piacciono"],
+    congiuntivo_presente: ["piaccia", "piaccia", "piaccia", "piacciamo/piaciamo", "piacciate/piaciate", "piacciano"],
   },
   tenere: {
     presente: ["tengo", "tieni", "tiene", "teniamo", "tenete", "tengono"],
@@ -246,6 +249,8 @@ const IRREGULAR_FORMS = {
   },
   scegliere: {
     presente: ["scelgo", "scegli", "sceglie", "scegliamo", "scegliete", "scelgono"],
+    futuro: ["sceglierò/scerrò", "sceglierai/scerrai", "sceglierà/scerrà", "sceglieremo/scerremo", "sceglierete/scerrete", "sceglieranno/scerranno"],
+    condizionale: ["sceglierei/scerrei", "sceglieresti/scerresti", "sceglierebbe/scerrebbe", "sceglieremmo/scerremmo", "scegliereste/scerreste", "sceglierebbero/scerrebbero"],
     congiuntivo_presente: ["scelga", "scelga", "scelga", "scegliamo", "scegliate", "scelgano"],
   },
   nascere: {
@@ -261,12 +266,26 @@ const IRREGULAR_FORMS = {
     presente: ["vinco", "vinci", "vince", "vinciamo", "vincete", "vincono"],
     congiuntivo_presente: ["vinca", "vinca", "vinca", "vinciamo", "vinciate", "vincano"],
   },
+  giocare: {
+    presente: ["gioco/giuoco", "giochi/giuochi", "gioca/giuoca", "giochiamo", "giocate", "giocano/giuocano"],
+    congiuntivo_presente: ["giochi/giuochi", "giochi/giuochi", "giochi/giuochi", "giochiamo", "giochiate", "giochino/giuochino"],
+  },
   produrre: {
     presente: ["produco", "produci", "produce", "produciamo", "producete", "producono"],
     imperfetto: ["producevo", "producevi", "produceva", "producevamo", "producevate", "producevano"],
     futuro: ["produrrò", "produrrai", "produrrà", "produrremo", "produrrete", "produrranno"],
     condizionale: ["produrrei", "produrresti", "produrrebbe", "produrremmo", "produrreste", "produrrebbero"],
     congiuntivo_presente: ["produca", "produca", "produca", "produciamo", "produciate", "producano"],
+  },
+  accadere: {
+    futuro: ["accadrò", "accadrai", "accadrà", "accadremo", "accadrete", "accadranno"],
+    condizionale: ["accadrei", "accadresti", "accadrebbe", "accadremmo", "accadreste", "accadrebbero"],
+  },
+  ottenere: {
+    presente: ["ottengo", "ottieni", "ottiene", "otteniamo", "ottenete", "ottengono"],
+    futuro: ["otterrò", "otterrai", "otterrà", "otterremo", "otterrete", "otterranno"],
+    condizionale: ["otterrei", "otterresti", "otterrebbe", "otterremmo", "otterreste", "otterrebbero"],
+    congiuntivo_presente: ["ottenga", "ottenga", "ottenga", "otteniamo", "otteniate", "ottengano"],
   },
 };
 
@@ -332,7 +351,7 @@ function futureStem(verb) {
   if (ending === "ire") return `${stem}ir`;
   if (ending === "are") {
     if (stem.endsWith("c") || stem.endsWith("g")) return `${stem}her`;
-    if (stem.endsWith("i")) stem = stem.slice(0, -1);
+    if (stem.endsWith("ci") || stem.endsWith("gi")) stem = stem.slice(0, -1);
   }
   return `${stem}er`;
 }
@@ -781,7 +800,9 @@ function expandSlashAnswer(answer) {
 function expandSlashWord(word) {
   if (!word.includes("/")) return [word];
   const [left, right] = word.split("/");
-  const replacement = right.length < left.length ? left.slice(0, left.length - right.length) + right : right;
+  const replacement = right.length === 1 && /^[ae]$/.test(right) && /[oi]$/.test(left)
+    ? left.slice(0, -1) + right
+    : right;
   return [...new Set([word, left, replacement])];
 }
 
