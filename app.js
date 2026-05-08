@@ -240,6 +240,7 @@ const els = {
 
 let state = loadState();
 let answersChecked = false;
+let checkedHasMistakes = false;
 
 function loadState() {
   try {
@@ -436,9 +437,10 @@ function randomFrom(items) {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-function setAnswersChecked(checked) {
+function setAnswersChecked(checked, { hasMistakes = false } = {}) {
   answersChecked = checked;
-  els.checkAnswers.textContent = checked ? "Next Verb" : "Check answers";
+  checkedHasMistakes = checked && hasMistakes;
+  els.checkAnswers.textContent = checked ? (hasMistakes ? "Try Again" : "Next Verb") : "Check answers";
   els.checkAnswers.classList.toggle("primary", checked);
 }
 
@@ -567,7 +569,7 @@ function checkAnswers() {
   });
 
   els.scoreText.textContent = `${correct} / ${PRONOUNS.length} correct`;
-  setAnswersChecked(true);
+  setAnswersChecked(true, { hasMistakes: correct < PRONOUNS.length });
 }
 
 function clearRound({ focusFirst = true } = {}) {
@@ -659,8 +661,9 @@ document.addEventListener("click", (event) => {
 els.newRound.addEventListener("click", () => clearRound());
 els.nextRound.addEventListener("click", () => newRound());
 els.checkAnswers.addEventListener("click", () => {
-  if (answersChecked) newRound();
-  else checkAnswers();
+  if (!answersChecked) checkAnswers();
+  else if (checkedHasMistakes) clearRound();
+  else newRound();
 });
 els.quizForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -684,8 +687,9 @@ els.quizForm.addEventListener("keydown", (event) => {
   const allFilled = inputs.every((input) => input.value.trim());
 
   if (allFilled) {
-    if (answersChecked) newRound();
-    else checkAnswers();
+    if (!answersChecked) checkAnswers();
+    else if (checkedHasMistakes) clearRound();
+    else newRound();
     return;
   }
 
@@ -703,8 +707,9 @@ document.addEventListener("keydown", (event) => {
 
   if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
     event.preventDefault();
-    if (answersChecked) newRound();
-    else checkAnswers();
+    if (!answersChecked) checkAnswers();
+    else if (checkedHasMistakes) clearRound();
+    else newRound();
     return;
   }
 
