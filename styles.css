@@ -242,6 +242,11 @@ h2 {
   padding-right: 0.25rem;
 }
 
+.done-button {
+  width: 100%;
+  margin-top: 0.7rem;
+}
+
 .choice {
   width: 100%;
   display: grid;

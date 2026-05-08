@@ -224,8 +224,10 @@ const els = {
   formCount: document.querySelector("#formCount"),
   selectAllVerbs: document.querySelector("#selectAllVerbs"),
   clearVerbs: document.querySelector("#clearVerbs"),
+  doneVerbs: document.querySelector("#doneVerbs"),
   selectAllForms: document.querySelector("#selectAllForms"),
   clearForms: document.querySelector("#clearForms"),
+  doneForms: document.querySelector("#doneForms"),
   promptLanguage: document.querySelector("#promptLanguage"),
   newRound: document.querySelector("#newRound"),
   nextRound: document.querySelector("#nextRound"),
@@ -324,7 +326,10 @@ function renderChoiceList({ items, selectedIds, query, container, getTitle, getS
     button.className = "choice";
     button.setAttribute("role", "option");
     button.setAttribute("aria-selected", selected.toString());
-    button.addEventListener("click", () => onToggle(item.id));
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+      onToggle(item.id);
+    });
 
     const check = document.createElement("span");
     check.className = "checkmark";
@@ -459,20 +464,16 @@ function renderQuiz() {
 
   const verb = getCurrentVerb();
   const form = getCurrentForm();
+  const hasQuiz = Boolean(verb && form);
   els.quizForm.replaceChildren();
   els.scoreText.textContent = "No answers checked yet.";
   setAnswersChecked(false);
 
-  if (!verb || !form) {
-    els.quizTitle.textContent = "Ready?";
-    els.quizSubtitle.textContent = "Choose at least one verb and one form to start.";
-    els.checkAnswers.disabled = true;
-    return;
-  }
-
-  els.checkAnswers.disabled = false;
-  els.quizTitle.textContent = titleFor(verb, form);
-  els.quizSubtitle.textContent = subtitleFor(verb, form);
+  els.checkAnswers.disabled = !hasQuiz;
+  els.quizTitle.textContent = hasQuiz ? titleFor(verb, form) : "Ready?";
+  els.quizSubtitle.textContent = hasQuiz
+    ? subtitleFor(verb, form)
+    : "Choose at least one verb and one form to start.";
 
   PRONOUNS.forEach((pronoun, index) => {
     const row = document.createElement("label");
@@ -495,7 +496,8 @@ function renderQuiz() {
     input.autocapitalize = "none";
     input.autocomplete = "off";
     input.spellcheck = false;
-    input.placeholder = "conjugation";
+    input.placeholder = hasQuiz ? "conjugation" : "select verbs/forms";
+    input.disabled = !hasQuiz;
     input.dataset.index = index.toString();
 
     const feedback = document.createElement("span");
@@ -630,8 +632,16 @@ els.verbSearch.addEventListener("input", renderSettings);
 els.formSearch.addEventListener("input", renderSettings);
 els.selectAllVerbs.addEventListener("click", () => selectAll("verbs"));
 els.clearVerbs.addEventListener("click", () => clearAll("verbs"));
+els.doneVerbs.addEventListener("click", () => {
+  els.verbPicker.open = false;
+  document.querySelector(".answer-input:not(:disabled)")?.focus();
+});
 els.selectAllForms.addEventListener("click", () => selectAll("forms"));
 els.clearForms.addEventListener("click", () => clearAll("forms"));
+els.doneForms.addEventListener("click", () => {
+  els.formPicker.open = false;
+  document.querySelector(".answer-input:not(:disabled)")?.focus();
+});
 els.verbPicker.addEventListener("toggle", () => {
   if (els.verbPicker.open) els.formPicker.open = false;
 });
