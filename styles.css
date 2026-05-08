@@ -133,7 +133,7 @@ p {
 h1 {
   color: var(--fg-bright);
   font-size: 1em;
-  letter-spacing: -0.085em;
+  letter-spacing: -0.075em;
   line-height: 0.85;
 }
 
@@ -158,7 +158,7 @@ h1 {
 
 .brand-title {
   /* Anchor the subtitle on the dot of the “i” in coniugare. */
-  --tagline-x: calc(1.52em + 4px);
+  --tagline-x: calc(1.52em + 7px);
   --tagline-y: 0.18em;
   position: relative;
   display: inline-block;
@@ -168,7 +168,7 @@ h1 {
 .tagline {
   position: absolute;
   left: var(--tagline-x);
-  top: calc(var(--tagline-y) - 7px);
+  top: calc(var(--tagline-y) - 6px);
   color: var(--yellow);
   line-height: 1;
   text-transform: lowercase;
