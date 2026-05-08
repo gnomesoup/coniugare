@@ -303,6 +303,7 @@ h2 {
 .quiz-toolbar,
 .result-bar,
 .toolbar-actions,
+.round-actions,
 .answer-row {
   display: flex;
   gap: 0.85rem;
@@ -318,6 +319,21 @@ h2 {
   align-items: end;
   flex-wrap: wrap;
   justify-content: flex-end;
+}
+
+.round-actions {
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.icon-button {
+  width: 3rem;
+  height: 3rem;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  font-size: 1.35rem;
+  line-height: 1;
 }
 
 .toggle,
@@ -447,6 +463,10 @@ h2 {
   .answer-row {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .round-actions {
+    justify-content: flex-start;
   }
 
   .toggle,

@@ -65,7 +65,10 @@
             <h2 id="quizTitle">Ready?</h2>
             <p id="quizSubtitle" class="muted">Choose at least one verb and one form to start.</p>
           </div>
-          <button id="newRound" type="button" class="primary">New round</button>
+          <div class="round-actions" aria-label="Round actions">
+            <button id="newRound" class="icon-button" type="button" title="Clear entries" aria-label="Clear entries">↻</button>
+            <button id="nextRound" class="icon-button primary" type="button" title="Next verb" aria-label="Next verb">→</button>
+          </div>
         </div>
 
         <form id="quizForm" class="answer-grid" autocomplete="off"></form>

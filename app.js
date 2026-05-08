@@ -228,6 +228,7 @@ const els = {
   clearForms: document.querySelector("#clearForms"),
   promptLanguage: document.querySelector("#promptLanguage"),
   newRound: document.querySelector("#newRound"),
+  nextRound: document.querySelector("#nextRound"),
   quizTitle: document.querySelector("#quizTitle"),
   quizSubtitle: document.querySelector("#quizSubtitle"),
   quizForm: document.querySelector("#quizForm"),
@@ -236,6 +237,7 @@ const els = {
 };
 
 let state = loadState();
+let answersChecked = false;
 
 function loadState() {
   try {
@@ -413,9 +415,10 @@ function newRound({ focusFirst = true } = {}) {
     return;
   }
 
-  const verbId = randomFrom(state.selectedVerbIds);
-  const formId = randomFrom(state.selectedFormIds);
-  state.currentRound = { verbId, formId };
+  const rounds = state.selectedVerbIds.flatMap((verbId) => state.selectedFormIds.map((formId) => ({ verbId, formId })));
+  const currentKey = state.currentRound ? `${state.currentRound.verbId}:${state.currentRound.formId}` : null;
+  const nextRounds = rounds.length > 1 ? rounds.filter((round) => `${round.verbId}:${round.formId}` !== currentKey) : rounds;
+  state.currentRound = randomFrom(nextRounds);
   saveState();
   renderQuiz();
 
@@ -426,6 +429,12 @@ function newRound({ focusFirst = true } = {}) {
 
 function randomFrom(items) {
   return items[Math.floor(Math.random() * items.length)];
+}
+
+function setAnswersChecked(checked) {
+  answersChecked = checked;
+  els.checkAnswers.textContent = checked ? "Next Verb" : "Check answers";
+  els.checkAnswers.classList.toggle("primary", checked);
 }
 
 function titleFor(verb, form) {
@@ -452,6 +461,7 @@ function renderQuiz() {
   const form = getCurrentForm();
   els.quizForm.replaceChildren();
   els.scoreText.textContent = "No answers checked yet.";
+  setAnswersChecked(false);
 
   if (!verb || !form) {
     els.quizTitle.textContent = "Ready?";
@@ -555,6 +565,22 @@ function checkAnswers() {
   });
 
   els.scoreText.textContent = `${correct} / ${PRONOUNS.length} correct`;
+  setAnswersChecked(true);
+}
+
+function clearRound({ focusFirst = true } = {}) {
+  setAnswersChecked(false);
+  els.scoreText.textContent = "No answers checked yet.";
+
+  [...els.quizForm.querySelectorAll(".answer-row")].forEach((row) => {
+    row.classList.remove("correct", "incorrect");
+    row.querySelector(".answer-input").value = "";
+    row.querySelector(".feedback").textContent = "";
+  });
+
+  if (focusFirst) {
+    requestAnimationFrame(() => document.querySelector(".answer-input")?.focus());
+  }
 }
 
 function selectAll(type) {
@@ -612,11 +638,53 @@ els.verbPicker.addEventListener("toggle", () => {
 els.formPicker.addEventListener("toggle", () => {
   if (els.formPicker.open) els.verbPicker.open = false;
 });
-els.newRound.addEventListener("click", () => newRound());
-els.checkAnswers.addEventListener("click", checkAnswers);
+document.addEventListener("click", (event) => {
+  if (els.verbPicker.open && !els.verbPicker.contains(event.target)) {
+    els.verbPicker.open = false;
+  }
+  if (els.formPicker.open && !els.formPicker.contains(event.target)) {
+    els.formPicker.open = false;
+  }
+});
+els.newRound.addEventListener("click", () => clearRound());
+els.nextRound.addEventListener("click", () => newRound());
+els.checkAnswers.addEventListener("click", () => {
+  if (answersChecked) newRound();
+  else checkAnswers();
+});
 els.quizForm.addEventListener("submit", (event) => {
   event.preventDefault();
   checkAnswers();
+});
+els.quizForm.addEventListener("input", (event) => {
+  if (!event.target.classList.contains("answer-input") || !answersChecked) return;
+  setAnswersChecked(false);
+  els.scoreText.textContent = "No answers checked yet.";
+  [...els.quizForm.querySelectorAll(".answer-row")].forEach((row) => {
+    row.classList.remove("correct", "incorrect");
+    row.querySelector(".feedback").textContent = "";
+  });
+});
+els.quizForm.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" || event.isComposing || !event.target.classList.contains("answer-input")) return;
+
+  event.preventDefault();
+
+  const inputs = [...els.quizForm.querySelectorAll(".answer-input")];
+  const allFilled = inputs.every((input) => input.value.trim());
+
+  if (allFilled) {
+    if (answersChecked) newRound();
+    else checkAnswers();
+    return;
+  }
+
+  const currentIndex = inputs.indexOf(event.target);
+  const nextInput = inputs.slice(currentIndex + 1).find((input) => !input.value.trim())
+    || inputs[currentIndex + 1]
+    || inputs.find((input) => !input.value.trim());
+
+  nextInput?.focus();
 });
 
 document.addEventListener("keydown", (event) => {
@@ -625,7 +693,8 @@ document.addEventListener("keydown", (event) => {
 
   if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
     event.preventDefault();
-    checkAnswers();
+    if (answersChecked) newRound();
+    else checkAnswers();
     return;
   }
 
@@ -660,3 +729,4 @@ document.addEventListener("keydown", (event) => {
 });
 
 render();
+requestAnimationFrame(() => document.querySelector(".answer-input")?.focus());
