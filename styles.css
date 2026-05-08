@@ -1,20 +1,35 @@
 :root {
   color-scheme: dark;
+  /* Spacemacs dark GUI palette from nashamri/spacemacs-theme. */
   --bg: #292b2e;
   --bg-alt: #212026;
-  --bg-alt-2: #1c1e1f;
+  --bg-alt-2: #100a14;
+  --bg-alt-3: #0a0814;
+  --panel: #222226;
+  --panel-hover: #42444a;
   --fg: #b2b2b2;
-  --fg-bright: #e4e4e4;
-  --muted: #8b8b8b;
-  --border: #3b3d3e;
-  --yellow: #b1951d;
-  --yellow-bright: #d7bd58;
+  --fg-bright: #e3dedd;
+  --muted: #686868;
+  --border: #5d4d7a;
+  --highlight: #444155;
+  --highlight-dim: #3b314d;
   --blue: #4f97d7;
+  --blue-bg: #293239;
+  --aqua: #2d9574;
   --green: #67b11d;
+  --success: #86dc2f;
+  --green-bg: #293235;
+  --yellow: #EEAD0E;
+  --yellow-bg: #32322c;
+  --orange: #dc752f;
   --red: #f2241f;
-  --orange: #da8548;
+  --err: #e0211d;
+  --red-bg: #3c2a2c;
   --violet: #a31db1;
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+  --func: #bc6ec5;
+  --const: #a45bad;
+  --cyan: #28def0;
+  --shadow: 0 24px 80px rgba(10, 8, 20, 0.42);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -26,7 +41,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top, rgba(79, 151, 215, 0.12), transparent 36rem),
+    radial-gradient(circle at top, rgba(93, 77, 122, 0.28), transparent 36rem),
     var(--bg);
   color: var(--fg);
 }
@@ -47,7 +62,7 @@ select {
 button,
 summary {
   border: 1px solid var(--border);
-  background: var(--bg-alt);
+  background: var(--panel);
   color: var(--fg-bright);
   cursor: pointer;
   padding: 0.72rem 0.95rem;
@@ -60,7 +75,7 @@ summary:hover,
 summary:focus-visible {
   border-color: var(--blue);
   color: var(--fg-bright);
-  background: #25272a;
+  background: var(--highlight-dim);
 }
 
 button:active,
@@ -71,14 +86,15 @@ summary:active {
 button.primary {
   background: var(--yellow);
   border-color: var(--yellow);
-  color: #1a1a1a;
+  color: var(--bg-alt-3);
   font-weight: 800;
 }
 
 button.primary:hover,
 button.primary:focus-visible {
-  background: var(--yellow-bright);
-  color: #1a1a1a;
+  background: var(--success);
+  border-color: var(--success);
+  color: var(--bg-alt-3);
 }
 
 input,
@@ -99,12 +115,19 @@ summary:focus-visible {
   outline-offset: 2px;
 }
 
+input:focus {
+  border-color: var(--yellow);
+  outline: 3px solid var(--yellow);
+  outline-offset: 0;
+  box-shadow: none;
+}
+
 kbd {
   border: 1px solid var(--border);
   border-bottom-width: 2px;
   border-radius: 0.35rem;
   padding: 0.05rem 0.35rem;
-  color: var(--yellow-bright);
+  color: var(--yellow);
   background: var(--bg-alt-2);
 }
 
@@ -128,7 +151,7 @@ h2 {
 }
 
 .eyebrow {
-  color: var(--yellow-bright);
+  color: var(--yellow);
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -195,7 +218,7 @@ h2 {
 
 .picker[open] summary {
   border-color: var(--blue);
-  background: #25272a;
+  background: var(--highlight-dim);
 }
 
 .picker[open] summary::after {
@@ -203,7 +226,7 @@ h2 {
 }
 
 .picker summary strong {
-  color: var(--yellow-bright);
+  color: var(--yellow);
   font-size: 0.82rem;
   font-weight: 800;
   white-space: nowrap;
@@ -218,7 +241,7 @@ h2 {
   padding: 0.85rem;
   border: 1px solid var(--border);
   border-radius: 0.85rem;
-  background: rgba(33, 32, 38, 0.98);
+  background: color-mix(in srgb, var(--bg-alt) 96%, transparent);
   box-shadow: var(--shadow);
   text-align: left;
 }
@@ -259,7 +282,7 @@ h2 {
 
 .choice[aria-selected="true"] {
   border-color: var(--green);
-  background: rgba(103, 177, 29, 0.12);
+  background: var(--green-bg);
 }
 
 .checkmark {
@@ -269,13 +292,13 @@ h2 {
   place-items: center;
   border: 1px solid var(--muted);
   border-radius: 0.28rem;
-  color: #121212;
+  color: var(--bg-alt-3);
   font-size: 0.8rem;
 }
 
 .choice[aria-selected="true"] .checkmark {
-  background: var(--green);
-  border-color: var(--green);
+  background: var(--success);
+  border-color: var(--success);
 }
 
 .choice-title,
@@ -296,7 +319,7 @@ h2 {
 .quiz-panel {
   position: relative;
   z-index: 1;
-  background: rgba(33, 32, 38, 0.9);
+  background: color-mix(in srgb, var(--bg-alt) 92%, transparent);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   border-radius: 1rem;
@@ -382,7 +405,7 @@ h2 {
   column-gap: 1rem;
   row-gap: 0.25rem;
   border: 1px solid var(--border);
-  background: rgba(28, 30, 31, 0.84);
+  background: var(--bg-alt-2);
   border-radius: 0.75rem;
   padding: 0.62rem;
 }
@@ -423,15 +446,17 @@ h2 {
 }
 
 .answer-row.correct {
-  border-color: var(--green);
+  border-color: var(--success);
+  background: var(--green-bg);
 }
 
 .answer-row.correct .feedback {
-  color: var(--green);
+  color: var(--success);
 }
 
 .answer-row.incorrect {
   border-color: var(--red);
+  background: var(--red-bg);
 }
 
 .answer-row.incorrect .feedback {
