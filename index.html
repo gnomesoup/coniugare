@@ -71,7 +71,7 @@
           </div>
           <div class="round-actions" aria-label="Round actions">
             <button id="clearAnswers" class="icon-button" type="button" title="Clear entries" aria-label="Clear entries">↻</button>
-            <button id="nextRound" class="icon-button primary" type="button" title="Next verb" aria-label="Next verb">→</button>
+            <button id="nextRound" class="icon-button" type="button" title="Next verb" aria-label="Next verb">→</button>
           </div>
         </div>
 
@@ -79,10 +79,10 @@
 
         <div class="result-bar" aria-live="polite">
           <div>
-            <strong id="scoreText">No answers checked yet.</strong>
-            <p id="hintText" class="muted">Keyboard: <kbd>/</kbd> verbs, <kbd>F</kbd> forms, <kbd>⌘/Ctrl</kbd> + <kbd>Enter</kbd> check, <kbd>Alt</kbd> + <kbd>N</kbd> next.</p>
+            <strong id="scoreText" hidden></strong>
+            <p id="hintText" class="muted"></p>
           </div>
-          <button id="checkAnswers" type="button">Check answers</button>
+          <button id="checkAnswers" class="primary" type="button">Check answers</button>
         </div>
       </section>
     </main>

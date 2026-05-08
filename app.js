@@ -28,14 +28,17 @@ const els = {
   quizTitle: document.querySelector("#quizTitle"),
   quizSubtitle: document.querySelector("#quizSubtitle"),
   quizForm: document.querySelector("#quizForm"),
+  hintText: document.querySelector("#hintText"),
   checkAnswers: document.querySelector("#checkAnswers"),
-  scoreText: document.querySelector("#scoreText"),
 };
+
+const IS_MAC = /mac|iphone|ipad|ipod/i.test(navigator.userAgentData?.platform || navigator.platform || "");
 
 let state = loadState();
 let answersChecked = false;
 let checkedHasMistakes = false;
 let pendingChoiceFocus = null;
+let escapePrimed = false;
 
 function defaultState() {
   return {
@@ -72,6 +75,35 @@ function saveState() {
   } catch {
     // Continue without persistence when storage is unavailable or full.
   }
+}
+
+function shortcutFragment(...keys) {
+  const fragment = document.createDocumentFragment();
+  keys.forEach((key, index) => {
+    if (index) fragment.append(" + ");
+    const keyEl = document.createElement("kbd");
+    keyEl.textContent = key;
+    fragment.append(keyEl);
+  });
+  return fragment;
+}
+
+function renderKeyboardHint() {
+  const optionKey = IS_MAC ? "⌥" : "Alt";
+  const commandKey = IS_MAC ? "⌘" : "Ctrl";
+  els.hintText.replaceChildren(
+    "Keyboard: ",
+    shortcutFragment(optionKey, "V"),
+    " verbs, ",
+    shortcutFragment(optionKey, "F"),
+    " forms, ",
+    shortcutFragment(commandKey, "Enter"),
+    " check, ",
+    shortcutFragment(optionKey, "N"),
+    " next, ",
+    shortcutFragment("Esc", "Esc"),
+    " refresh.",
+  );
 }
 
 function normalize(value) {
@@ -294,6 +326,12 @@ function keepRoundValid() {
   if (!verbValid || !formValid) state.currentRound = null;
 }
 
+function pressButton(button, action) {
+  button.classList.add("keyboard-pressed");
+  window.setTimeout(() => button.classList.remove("keyboard-pressed"), 140);
+  action();
+}
+
 function newRound({ focusFirst = true } = {}) {
   if (!state.selectedVerbIds.length || !state.selectedFormIds.length) {
     state.currentRound = null;
@@ -322,7 +360,6 @@ function setAnswersChecked(checked, { hasMistakes = false } = {}) {
   answersChecked = checked;
   checkedHasMistakes = checked && hasMistakes;
   els.checkAnswers.textContent = checked ? (hasMistakes ? "Try Again" : "Next Verb") : "Check answers";
-  els.checkAnswers.classList.toggle("primary", checked);
 }
 
 function titleFor(verb, form) {
@@ -349,7 +386,6 @@ function renderQuiz() {
   const form = getCurrentForm();
   const hasQuiz = Boolean(verb && form);
   els.quizForm.replaceChildren();
-  els.scoreText.textContent = "No answers checked yet.";
   setAnswersChecked(false);
 
   els.checkAnswers.disabled = !hasQuiz;
@@ -453,14 +489,12 @@ function checkAnswers() {
     }
   });
 
-  els.scoreText.textContent = `${correct} / ${PRONOUNS.length} correct`;
   setAnswersChecked(true, { hasMistakes: correct < PRONOUNS.length });
   requestAnimationFrame(() => els.checkAnswers.focus());
 }
 
 function clearAnswers({ focusFirst = true } = {}) {
   setAnswersChecked(false);
-  els.scoreText.textContent = "No answers checked yet.";
 
   [...els.quizForm.querySelectorAll(".answer-row")].forEach((row) => {
     row.classList.remove("correct", "incorrect");
@@ -568,7 +602,6 @@ els.quizForm.addEventListener("submit", (event) => {
 els.quizForm.addEventListener("input", (event) => {
   if (!event.target.classList.contains("answer-input") || !answersChecked) return;
   setAnswersChecked(false);
-  els.scoreText.textContent = "No answers checked yet.";
   [...els.quizForm.querySelectorAll(".answer-row")].forEach((row) => {
     row.classList.remove("correct", "incorrect");
     row.querySelector(".feedback").textContent = "";
@@ -612,6 +645,25 @@ document.addEventListener("keydown", (event) => {
   const target = event.target;
   const isTyping = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement;
 
+  if (event.key === "Escape") {
+    event.preventDefault();
+    if (els.verbPicker.open || els.formPicker.open) {
+      els.verbPicker.open = false;
+      els.formPicker.open = false;
+      escapePrimed = false;
+      document.querySelector(".answer-input:not(:disabled)")?.focus();
+    } else if (document.activeElement === els.clearAnswers && escapePrimed) {
+      clearAnswers();
+      escapePrimed = false;
+    } else {
+      els.clearAnswers.focus();
+      escapePrimed = true;
+    }
+    return;
+  }
+
+  escapePrimed = false;
+
   if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
     event.preventDefault();
     if (!answersChecked) checkAnswers();
@@ -620,19 +672,19 @@ document.addEventListener("keydown", (event) => {
     return;
   }
 
-  if (event.altKey && event.key.toLowerCase() === "n") {
+  if (event.altKey && (event.key.toLowerCase() === "n" || event.code === "KeyN")) {
     event.preventDefault();
-    newRound();
+    pressButton(els.nextRound, () => newRound());
     return;
   }
 
-  if (event.altKey && event.key.toLowerCase() === "v") {
+  if (event.altKey && (event.key.toLowerCase() === "v" || event.code === "KeyV")) {
     event.preventDefault();
     focusPickerSearch("verbs");
     return;
   }
 
-  if (event.altKey && event.key.toLowerCase() === "f") {
+  if (event.altKey && (event.key.toLowerCase() === "f" || event.code === "KeyF")) {
     event.preventDefault();
     focusPickerSearch("forms");
     return;
@@ -650,5 +702,6 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+renderKeyboardHint();
 render();
 requestAnimationFrame(() => document.querySelector(".answer-input")?.focus());

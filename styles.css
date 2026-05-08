@@ -60,6 +60,7 @@ summary {
 }
 
 button:hover,
+button.keyboard-pressed,
 summary:hover {
   border-color: var(--blue);
   color: var(--fg-bright);
@@ -73,6 +74,7 @@ button:focus-visible {
 }
 
 button:active,
+button.keyboard-pressed,
 summary:active {
   transform: translateY(1px);
 }
@@ -85,8 +87,8 @@ button.primary {
 }
 
 button.primary:hover {
-  background: var(--success);
-  border-color: var(--success);
+  background: var(--blue);
+  border-color: var(--blue);
   color: var(--bg-alt-3);
 }
 
@@ -406,13 +408,14 @@ h2 {
 
 .prompt-toggle {
   --prompt-gap: 0.95rem;
+  min-height: calc(1em + 1.44rem + 6px);
   display: flex;
   align-items: center;
   gap: var(--prompt-gap);
   border: 1px solid var(--border);
   border-radius: 0.55rem;
   background: var(--panel);
-  padding: 0.72rem var(--prompt-gap);
+  padding: 0 var(--prompt-gap);
 }
 
 .prompt-toggle button {
@@ -526,10 +529,6 @@ h2 {
 .result-bar {
   border-top: 1px solid var(--border);
   padding-top: 1rem;
-}
-
-#scoreText {
-  color: var(--fg-bright);
 }
 
 @media (max-width: 760px) {
