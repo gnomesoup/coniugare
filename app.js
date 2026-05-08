@@ -16,190 +16,369 @@ const FORMS = [
   { id: "congiuntivo_presente", it: "congiuntivo presente", en: "present subjunctive", hint: "that I speak" },
 ];
 
-const VERBS = [
-  {
-    id: "essere",
-    it: "essere",
-    en: "to be",
-    forms: {
-      presente: ["sono", "sei", "è", "siamo", "siete", "sono"],
-      passato_prossimo: ["sono stato/a", "sei stato/a", "è stato/a", "siamo stati/e", "siete stati/e", "sono stati/e"],
-      imperfetto: ["ero", "eri", "era", "eravamo", "eravate", "erano"],
-      futuro: ["sarò", "sarai", "sarà", "saremo", "sarete", "saranno"],
-      condizionale: ["sarei", "saresti", "sarebbe", "saremmo", "sareste", "sarebbero"],
-      congiuntivo_presente: ["sia", "sia", "sia", "siamo", "siate", "siano"],
-    },
-  },
-  {
-    id: "avere",
-    it: "avere",
-    en: "to have",
-    forms: {
-      presente: ["ho", "hai", "ha", "abbiamo", "avete", "hanno"],
-      passato_prossimo: ["ho avuto", "hai avuto", "ha avuto", "abbiamo avuto", "avete avuto", "hanno avuto"],
-      imperfetto: ["avevo", "avevi", "aveva", "avevamo", "avevate", "avevano"],
-      futuro: ["avrò", "avrai", "avrà", "avremo", "avrete", "avranno"],
-      condizionale: ["avrei", "avresti", "avrebbe", "avremmo", "avreste", "avrebbero"],
-      congiuntivo_presente: ["abbia", "abbia", "abbia", "abbiamo", "abbiate", "abbiano"],
-    },
-  },
-  {
-    id: "fare",
-    it: "fare",
-    en: "to do / make",
-    forms: {
-      presente: ["faccio", "fai", "fa", "facciamo", "fate", "fanno"],
-      passato_prossimo: ["ho fatto", "hai fatto", "ha fatto", "abbiamo fatto", "avete fatto", "hanno fatto"],
-      imperfetto: ["facevo", "facevi", "faceva", "facevamo", "facevate", "facevano"],
-      futuro: ["farò", "farai", "farà", "faremo", "farete", "faranno"],
-      condizionale: ["farei", "faresti", "farebbe", "faremmo", "fareste", "farebbero"],
-      congiuntivo_presente: ["faccia", "faccia", "faccia", "facciamo", "facciate", "facciano"],
-    },
-  },
-  {
-    id: "andare",
-    it: "andare",
-    en: "to go",
-    forms: {
-      presente: ["vado", "vai", "va", "andiamo", "andate", "vanno"],
-      passato_prossimo: ["sono andato/a", "sei andato/a", "è andato/a", "siamo andati/e", "siete andati/e", "sono andati/e"],
-      imperfetto: ["andavo", "andavi", "andava", "andavamo", "andavate", "andavano"],
-      futuro: ["andrò", "andrai", "andrà", "andremo", "andrete", "andranno"],
-      condizionale: ["andrei", "andresti", "andrebbe", "andremmo", "andreste", "andrebbero"],
-      congiuntivo_presente: ["vada", "vada", "vada", "andiamo", "andiate", "vadano"],
-    },
-  },
-  {
-    id: "venire",
-    it: "venire",
-    en: "to come",
-    forms: {
-      presente: ["vengo", "vieni", "viene", "veniamo", "venite", "vengono"],
-      passato_prossimo: ["sono venuto/a", "sei venuto/a", "è venuto/a", "siamo venuti/e", "siete venuti/e", "sono venuti/e"],
-      imperfetto: ["venivo", "venivi", "veniva", "venivamo", "venivate", "venivano"],
-      futuro: ["verrò", "verrai", "verrà", "verremo", "verrete", "verranno"],
-      condizionale: ["verrei", "verresti", "verrebbe", "verremmo", "verreste", "verrebbero"],
-      congiuntivo_presente: ["venga", "venga", "venga", "veniamo", "veniate", "vengano"],
-    },
-  },
-  {
-    id: "parlare",
-    it: "parlare",
-    en: "to speak",
-    forms: {
-      presente: ["parlo", "parli", "parla", "parliamo", "parlate", "parlano"],
-      passato_prossimo: ["ho parlato", "hai parlato", "ha parlato", "abbiamo parlato", "avete parlato", "hanno parlato"],
-      imperfetto: ["parlavo", "parlavi", "parlava", "parlavamo", "parlavate", "parlavano"],
-      futuro: ["parlerò", "parlerai", "parlerà", "parleremo", "parlerete", "parleranno"],
-      condizionale: ["parlerei", "parleresti", "parlerebbe", "parleremmo", "parlereste", "parlerebbero"],
-      congiuntivo_presente: ["parli", "parli", "parli", "parliamo", "parliate", "parlino"],
-    },
-  },
-  {
-    id: "mangiare",
-    it: "mangiare",
-    en: "to eat",
-    forms: {
-      presente: ["mangio", "mangi", "mangia", "mangiamo", "mangiate", "mangiano"],
-      passato_prossimo: ["ho mangiato", "hai mangiato", "ha mangiato", "abbiamo mangiato", "avete mangiato", "hanno mangiato"],
-      imperfetto: ["mangiavo", "mangiavi", "mangiava", "mangiavamo", "mangiavate", "mangiavano"],
-      futuro: ["mangerò", "mangerai", "mangerà", "mangeremo", "mangerete", "mangeranno"],
-      condizionale: ["mangerei", "mangeresti", "mangerebbe", "mangeremmo", "mangereste", "mangerebbero"],
-      congiuntivo_presente: ["mangi", "mangi", "mangi", "mangiamo", "mangiate", "mangino"],
-    },
-  },
-  {
-    id: "vedere",
-    it: "vedere",
-    en: "to see",
-    forms: {
-      presente: ["vedo", "vedi", "vede", "vediamo", "vedete", "vedono"],
-      passato_prossimo: ["ho visto", "hai visto", "ha visto", "abbiamo visto", "avete visto", "hanno visto"],
-      imperfetto: ["vedevo", "vedevi", "vedeva", "vedevamo", "vedevate", "vedevano"],
-      futuro: ["vedrò", "vedrai", "vedrà", "vedremo", "vedrete", "vedranno"],
-      condizionale: ["vedrei", "vedresti", "vedrebbe", "vedremmo", "vedreste", "vedrebbero"],
-      congiuntivo_presente: ["veda", "veda", "veda", "vediamo", "vediate", "vedano"],
-    },
-  },
-  {
-    id: "prendere",
-    it: "prendere",
-    en: "to take",
-    forms: {
-      presente: ["prendo", "prendi", "prende", "prendiamo", "prendete", "prendono"],
-      passato_prossimo: ["ho preso", "hai preso", "ha preso", "abbiamo preso", "avete preso", "hanno preso"],
-      imperfetto: ["prendevo", "prendevi", "prendeva", "prendevamo", "prendevate", "prendevano"],
-      futuro: ["prenderò", "prenderai", "prenderà", "prenderemo", "prenderete", "prenderanno"],
-      condizionale: ["prenderei", "prenderesti", "prenderebbe", "prenderemmo", "prendereste", "prenderebbero"],
-      congiuntivo_presente: ["prenda", "prenda", "prenda", "prendiamo", "prendiate", "prendano"],
-    },
-  },
-  {
-    id: "dormire",
-    it: "dormire",
-    en: "to sleep",
-    forms: {
-      presente: ["dormo", "dormi", "dorme", "dormiamo", "dormite", "dormono"],
-      passato_prossimo: ["ho dormito", "hai dormito", "ha dormito", "abbiamo dormito", "avete dormito", "hanno dormito"],
-      imperfetto: ["dormivo", "dormivi", "dormiva", "dormivamo", "dormivate", "dormivano"],
-      futuro: ["dormirò", "dormirai", "dormirà", "dormiremo", "dormirete", "dormiranno"],
-      condizionale: ["dormirei", "dormiresti", "dormirebbe", "dormiremmo", "dormireste", "dormirebbero"],
-      congiuntivo_presente: ["dorma", "dorma", "dorma", "dormiamo", "dormiate", "dormano"],
-    },
-  },
-  {
-    id: "capire",
-    it: "capire",
-    en: "to understand",
-    forms: {
-      presente: ["capisco", "capisci", "capisce", "capiamo", "capite", "capiscono"],
-      passato_prossimo: ["ho capito", "hai capito", "ha capito", "abbiamo capito", "avete capito", "hanno capito"],
-      imperfetto: ["capivo", "capivi", "capiva", "capivamo", "capivate", "capivano"],
-      futuro: ["capirò", "capirai", "capirà", "capiremo", "capirete", "capiranno"],
-      condizionale: ["capirei", "capiresti", "capirebbe", "capiremmo", "capireste", "capirebbero"],
-      congiuntivo_presente: ["capisca", "capisca", "capisca", "capiamo", "capiate", "capiscano"],
-    },
-  },
-  {
-    id: "volere",
-    it: "volere",
-    en: "to want",
-    forms: {
-      presente: ["voglio", "vuoi", "vuole", "vogliamo", "volete", "vogliono"],
-      passato_prossimo: ["ho voluto", "hai voluto", "ha voluto", "abbiamo voluto", "avete voluto", "hanno voluto"],
-      imperfetto: ["volevo", "volevi", "voleva", "volevamo", "volevate", "volevano"],
-      futuro: ["vorrò", "vorrai", "vorrà", "vorremo", "vorrete", "vorranno"],
-      condizionale: ["vorrei", "vorresti", "vorrebbe", "vorremmo", "vorreste", "vorrebbero"],
-      congiuntivo_presente: ["voglia", "voglia", "voglia", "vogliamo", "vogliate", "vogliano"],
-    },
-  },
-  {
-    id: "potere",
-    it: "potere",
-    en: "to be able to / can",
-    forms: {
-      presente: ["posso", "puoi", "può", "possiamo", "potete", "possono"],
-      passato_prossimo: ["ho potuto", "hai potuto", "ha potuto", "abbiamo potuto", "avete potuto", "hanno potuto"],
-      imperfetto: ["potevo", "potevi", "poteva", "potevamo", "potevate", "potevano"],
-      futuro: ["potrò", "potrai", "potrà", "potremo", "potrete", "potranno"],
-      condizionale: ["potrei", "potresti", "potrebbe", "potremmo", "potreste", "potrebbero"],
-      congiuntivo_presente: ["possa", "possa", "possa", "possiamo", "possiate", "possano"],
-    },
-  },
-  {
-    id: "dovere",
-    it: "dovere",
-    en: "to have to / must",
-    forms: {
-      presente: ["devo", "devi", "deve", "dobbiamo", "dovete", "devono"],
-      passato_prossimo: ["ho dovuto", "hai dovuto", "ha dovuto", "abbiamo dovuto", "avete dovuto", "hanno dovuto"],
-      imperfetto: ["dovevo", "dovevi", "doveva", "dovevamo", "dovevate", "dovevano"],
-      futuro: ["dovrò", "dovrai", "dovrà", "dovremo", "dovrete", "dovranno"],
-      condizionale: ["dovrei", "dovresti", "dovrebbe", "dovremmo", "dovreste", "dovrebbero"],
-      congiuntivo_presente: ["debba", "debba", "debba", "dobbiamo", "dobbiate", "debbano"],
-    },
-  },
+const VERB_DATA = [
+  { id: "essere", it: "essere", en: "to be", irregular: true, aux: "essere", participle: "stato" },
+  { id: "avere", it: "avere", en: "to have", irregular: true, aux: "avere", participle: "avuto" },
+  { id: "fare", it: "fare", en: "to do / make", irregular: true, aux: "avere", participle: "fatto" },
+  { id: "dire", it: "dire", en: "to say / tell", irregular: true, aux: "avere", participle: "detto" },
+  { id: "potere", it: "potere", en: "can / to be able to", irregular: true, aux: "avere", participle: "potuto" },
+  { id: "volere", it: "volere", en: "to want", irregular: true, aux: "avere", participle: "voluto" },
+  { id: "dovere", it: "dovere", en: "must / to have to", irregular: true, aux: "avere", participle: "dovuto" },
+  { id: "sapere", it: "sapere", en: "to know", irregular: true, aux: "avere", participle: "saputo" },
+  { id: "stare", it: "stare", en: "to stay / be", irregular: true, aux: "avere", participle: "stato" },
+  { id: "andare", it: "andare", en: "to go", irregular: true, aux: "essere", participle: "andato" },
+  { id: "venire", it: "venire", en: "to come", irregular: true, aux: "essere", participle: "venuto" },
+  { id: "dare", it: "dare", en: "to give", irregular: true, aux: "avere", participle: "dato" },
+  { id: "vedere", it: "vedere", en: "to see", irregular: true, aux: "avere", participle: "visto" },
+  { id: "parlare", it: "parlare", en: "to speak", irregular: false, aux: "avere", participle: "parlato" },
+  { id: "trovare", it: "trovare", en: "to find", irregular: false, aux: "avere", participle: "trovato" },
+  { id: "prendere", it: "prendere", en: "to take", irregular: true, aux: "avere", participle: "preso" },
+  { id: "mettere", it: "mettere", en: "to put", irregular: true, aux: "avere", participle: "messo" },
+  { id: "pensare", it: "pensare", en: "to think", irregular: false, aux: "avere", participle: "pensato" },
+  { id: "lasciare", it: "lasciare", en: "to leave / let", irregular: false, aux: "avere", participle: "lasciato" },
+  { id: "guardare", it: "guardare", en: "to watch / look at", irregular: false, aux: "avere", participle: "guardato" },
+  { id: "chiamare", it: "chiamare", en: "to call", irregular: false, aux: "avere", participle: "chiamato" },
+  { id: "arrivare", it: "arrivare", en: "to arrive", irregular: false, aux: "essere", participle: "arrivato" },
+  { id: "passare", it: "passare", en: "to pass / spend time", irregular: false, aux: "avere", participle: "passato" },
+  { id: "credere", it: "credere", en: "to believe", irregular: false, aux: "avere", participle: "creduto" },
+  { id: "portare", it: "portare", en: "to bring / wear", irregular: false, aux: "avere", participle: "portato" },
+  { id: "uscire", it: "uscire", en: "to go out", irregular: true, aux: "essere", participle: "uscito" },
+  { id: "tornare", it: "tornare", en: "to return", irregular: false, aux: "essere", participle: "tornato" },
+  { id: "sentire", it: "sentire", en: "to hear / feel", irregular: false, aux: "avere", participle: "sentito" },
+  { id: "vivere", it: "vivere", en: "to live", irregular: true, aux: "avere", participle: "vissuto" },
+  { id: "morire", it: "morire", en: "to die", irregular: true, aux: "essere", participle: "morto" },
+  { id: "capire", it: "capire", en: "to understand", irregular: false, aux: "avere", participle: "capito", isc: true },
+  { id: "mangiare", it: "mangiare", en: "to eat", irregular: false, aux: "avere", participle: "mangiato" },
+  { id: "bere", it: "bere", en: "to drink", irregular: true, aux: "avere", participle: "bevuto" },
+  { id: "aspettare", it: "aspettare", en: "to wait for", irregular: false, aux: "avere", participle: "aspettato" },
+  { id: "cercare", it: "cercare", en: "to look for / search", irregular: false, aux: "avere", participle: "cercato" },
+  { id: "entrare", it: "entrare", en: "to enter", irregular: false, aux: "essere", participle: "entrato" },
+  { id: "lavorare", it: "lavorare", en: "to work", irregular: false, aux: "avere", participle: "lavorato" },
+  { id: "scrivere", it: "scrivere", en: "to write", irregular: true, aux: "avere", participle: "scritto" },
+  { id: "leggere", it: "leggere", en: "to read", irregular: true, aux: "avere", participle: "letto" },
+  { id: "perdere", it: "perdere", en: "to lose", irregular: true, aux: "avere", participle: "perso" },
+  { id: "chiedere", it: "chiedere", en: "to ask", irregular: true, aux: "avere", participle: "chiesto" },
+  { id: "rispondere", it: "rispondere", en: "to answer", irregular: true, aux: "avere", participle: "risposto" },
+  { id: "chiudere", it: "chiudere", en: "to close", irregular: true, aux: "avere", participle: "chiuso" },
+  { id: "aprire", it: "aprire", en: "to open", irregular: true, aux: "avere", participle: "aperto" },
+  { id: "conoscere", it: "conoscere", en: "to know / meet", irregular: false, aux: "avere", participle: "conosciuto" },
+  { id: "comprare", it: "comprare", en: "to buy", irregular: false, aux: "avere", participle: "comprato" },
+  { id: "studiare", it: "studiare", en: "to study", irregular: false, aux: "avere", participle: "studiato" },
+  { id: "giocare", it: "giocare", en: "to play", irregular: false, aux: "avere", participle: "giocato" },
+  { id: "pagare", it: "pagare", en: "to pay", irregular: false, aux: "avere", participle: "pagato" },
+  { id: "cominciare", it: "cominciare", en: "to begin", irregular: false, aux: "avere", participle: "cominciato" },
+  { id: "finire", it: "finire", en: "to finish", irregular: false, aux: "avere", participle: "finito", isc: true },
+  { id: "preferire", it: "preferire", en: "to prefer", irregular: false, aux: "avere", participle: "preferito", isc: true },
+  { id: "dormire", it: "dormire", en: "to sleep", irregular: false, aux: "avere", participle: "dormito" },
+  { id: "partire", it: "partire", en: "to leave / depart", irregular: false, aux: "essere", participle: "partito" },
+  { id: "restare", it: "restare", en: "to remain / stay", irregular: false, aux: "essere", participle: "restato" },
+  { id: "abitare", it: "abitare", en: "to live / reside", irregular: false, aux: "avere", participle: "abitato" },
+  { id: "ascoltare", it: "ascoltare", en: "to listen to", irregular: false, aux: "avere", participle: "ascoltato" },
+  { id: "usare", it: "usare", en: "to use", irregular: false, aux: "avere", participle: "usato" },
+  { id: "piacere", it: "piacere", en: "to please / like", irregular: true, aux: "essere", participle: "piaciuto" },
+  { id: "sembrare", it: "sembrare", en: "to seem", irregular: false, aux: "essere", participle: "sembrato" },
+  { id: "tenere", it: "tenere", en: "to hold / keep", irregular: true, aux: "avere", participle: "tenuto" },
+  { id: "riuscire", it: "riuscire", en: "to manage / succeed", irregular: true, aux: "essere", participle: "riuscito" },
+  { id: "rimanere", it: "rimanere", en: "to remain", irregular: true, aux: "essere", participle: "rimasto" },
+  { id: "cadere", it: "cadere", en: "to fall", irregular: true, aux: "essere", participle: "caduto" },
+  { id: "scegliere", it: "scegliere", en: "to choose", irregular: true, aux: "avere", participle: "scelto" },
+  { id: "nascere", it: "nascere", en: "to be born", irregular: true, aux: "essere", participle: "nato" },
+  { id: "crescere", it: "crescere", en: "to grow", irregular: true, aux: "avere", participle: "cresciuto" },
+  { id: "correre", it: "correre", en: "to run", irregular: true, aux: "avere", participle: "corso" },
+  { id: "ridere", it: "ridere", en: "to laugh", irregular: true, aux: "avere", participle: "riso" },
+  { id: "vincere", it: "vincere", en: "to win", irregular: true, aux: "avere", participle: "vinto" },
+  { id: "offrire", it: "offrire", en: "to offer", irregular: true, aux: "avere", participle: "offerto" },
+  { id: "produrre", it: "produrre", en: "to produce", irregular: true, aux: "avere", participle: "prodotto" },
+  { id: "spiegare", it: "spiegare", en: "to explain", irregular: false, aux: "avere", participle: "spiegato" },
+  { id: "seguire", it: "seguire", en: "to follow", irregular: false, aux: "avere", participle: "seguito" },
+  { id: "servire", it: "servire", en: "to serve / be useful", irregular: false, aux: "avere", participle: "servito" },
+  { id: "ricevere", it: "ricevere", en: "to receive", irregular: false, aux: "avere", participle: "ricevuto" },
+  { id: "amare", it: "amare", en: "to love", irregular: false, aux: "avere", participle: "amato" },
+  { id: "aiutare", it: "aiutare", en: "to help", irregular: false, aux: "avere", participle: "aiutato" },
+  { id: "ricordare", it: "ricordare", en: "to remember", irregular: false, aux: "avere", participle: "ricordato" },
+  { id: "dimenticare", it: "dimenticare", en: "to forget", irregular: false, aux: "avere", participle: "dimenticato" },
+  { id: "provare", it: "provare", en: "to try", irregular: false, aux: "avere", participle: "provato" },
+  { id: "cambiare", it: "cambiare", en: "to change", irregular: false, aux: "avere", participle: "cambiato" },
+  { id: "continuare", it: "continuare", en: "to continue", irregular: false, aux: "avere", participle: "continuato" },
+  { id: "iniziare", it: "iniziare", en: "to start", irregular: false, aux: "avere", participle: "iniziato" },
+  { id: "diventare", it: "diventare", en: "to become", irregular: false, aux: "essere", participle: "diventato" },
+  { id: "creare", it: "creare", en: "to create", irregular: false, aux: "avere", participle: "creato" },
+  { id: "incontrare", it: "incontrare", en: "to meet", irregular: false, aux: "avere", participle: "incontrato" },
+  { id: "mostrare", it: "mostrare", en: "to show", irregular: false, aux: "avere", participle: "mostrato" },
+  { id: "succedere", it: "succedere", en: "to happen", irregular: true, aux: "essere", participle: "successo" },
+  { id: "esistere", it: "esistere", en: "to exist", irregular: false, aux: "essere", participle: "esistito" },
+  { id: "telefonare", it: "telefonare", en: "to phone", irregular: false, aux: "avere", participle: "telefonato" },
+  { id: "viaggiare", it: "viaggiare", en: "to travel", irregular: false, aux: "avere", participle: "viaggiato" },
+  { id: "camminare", it: "camminare", en: "to walk", irregular: false, aux: "avere", participle: "camminato" },
+  { id: "vendere", it: "vendere", en: "to sell", irregular: false, aux: "avere", participle: "venduto" },
+  { id: "decidere", it: "decidere", en: "to decide", irregular: true, aux: "avere", participle: "deciso" },
+  { id: "permettere", it: "permettere", en: "to allow", irregular: true, aux: "avere", participle: "permesso" },
+  { id: "accadere", it: "accadere", en: "to happen / occur", irregular: false, aux: "essere", participle: "accaduto" },
+  { id: "ottenere", it: "ottenere", en: "to obtain", irregular: true, aux: "avere", participle: "ottenuto" },
+  { id: "riconoscere", it: "riconoscere", en: "to recognize", irregular: false, aux: "avere", participle: "riconosciuto" },
+  { id: "costruire", it: "costruire", en: "to build", irregular: false, aux: "avere", participle: "costruito", isc: true },
 ];
+
+const IRREGULAR_FORMS = {
+  essere: {
+    presente: ["sono", "sei", "è", "siamo", "siete", "sono"],
+    passato_prossimo: ["sono stato/a", "sei stato/a", "è stato/a", "siamo stati/e", "siete stati/e", "sono stati/e"],
+    imperfetto: ["ero", "eri", "era", "eravamo", "eravate", "erano"],
+    futuro: ["sarò", "sarai", "sarà", "saremo", "sarete", "saranno"],
+    condizionale: ["sarei", "saresti", "sarebbe", "saremmo", "sareste", "sarebbero"],
+    congiuntivo_presente: ["sia", "sia", "sia", "siamo", "siate", "siano"],
+  },
+  avere: {
+    presente: ["ho", "hai", "ha", "abbiamo", "avete", "hanno"],
+    futuro: ["avrò", "avrai", "avrà", "avremo", "avrete", "avranno"],
+    condizionale: ["avrei", "avresti", "avrebbe", "avremmo", "avreste", "avrebbero"],
+    congiuntivo_presente: ["abbia", "abbia", "abbia", "abbiamo", "abbiate", "abbiano"],
+  },
+  fare: {
+    presente: ["faccio", "fai", "fa", "facciamo", "fate", "fanno"],
+    imperfetto: ["facevo", "facevi", "faceva", "facevamo", "facevate", "facevano"],
+    futuro: ["farò", "farai", "farà", "faremo", "farete", "faranno"],
+    condizionale: ["farei", "faresti", "farebbe", "faremmo", "fareste", "farebbero"],
+    congiuntivo_presente: ["faccia", "faccia", "faccia", "facciamo", "facciate", "facciano"],
+  },
+  dire: {
+    presente: ["dico", "dici", "dice", "diciamo", "dite", "dicono"],
+    imperfetto: ["dicevo", "dicevi", "diceva", "dicevamo", "dicevate", "dicevano"],
+    futuro: ["dirò", "dirai", "dirà", "diremo", "direte", "diranno"],
+    condizionale: ["direi", "diresti", "direbbe", "diremmo", "direste", "direbbero"],
+    congiuntivo_presente: ["dica", "dica", "dica", "diciamo", "diciate", "dicano"],
+  },
+  potere: {
+    presente: ["posso", "puoi", "può", "possiamo", "potete", "possono"],
+    futuro: ["potrò", "potrai", "potrà", "potremo", "potrete", "potranno"],
+    condizionale: ["potrei", "potresti", "potrebbe", "potremmo", "potreste", "potrebbero"],
+    congiuntivo_presente: ["possa", "possa", "possa", "possiamo", "possiate", "possano"],
+  },
+  volere: {
+    presente: ["voglio", "vuoi", "vuole", "vogliamo", "volete", "vogliono"],
+    futuro: ["vorrò", "vorrai", "vorrà", "vorremo", "vorrete", "vorranno"],
+    condizionale: ["vorrei", "vorresti", "vorrebbe", "vorremmo", "vorreste", "vorrebbero"],
+    congiuntivo_presente: ["voglia", "voglia", "voglia", "vogliamo", "vogliate", "vogliano"],
+  },
+  dovere: {
+    presente: ["devo", "devi", "deve", "dobbiamo", "dovete", "devono"],
+    futuro: ["dovrò", "dovrai", "dovrà", "dovremo", "dovrete", "dovranno"],
+    condizionale: ["dovrei", "dovresti", "dovrebbe", "dovremmo", "dovreste", "dovrebbero"],
+    congiuntivo_presente: ["debba", "debba", "debba", "dobbiamo", "dobbiate", "debbano"],
+  },
+  sapere: {
+    presente: ["so", "sai", "sa", "sappiamo", "sapete", "sanno"],
+    futuro: ["saprò", "saprai", "saprà", "sapremo", "saprete", "sapranno"],
+    condizionale: ["saprei", "sapresti", "saprebbe", "sapremmo", "sapreste", "saprebbero"],
+    congiuntivo_presente: ["sappia", "sappia", "sappia", "sappiamo", "sappiate", "sappiano"],
+  },
+  stare: {
+    presente: ["sto", "stai", "sta", "stiamo", "state", "stanno"],
+    futuro: ["starò", "starai", "starà", "staremo", "starete", "staranno"],
+    condizionale: ["starei", "staresti", "starebbe", "staremmo", "stareste", "starebbero"],
+    congiuntivo_presente: ["stia", "stia", "stia", "stiamo", "stiate", "stiano"],
+  },
+  andare: {
+    presente: ["vado", "vai", "va", "andiamo", "andate", "vanno"],
+    futuro: ["andrò", "andrai", "andrà", "andremo", "andrete", "andranno"],
+    condizionale: ["andrei", "andresti", "andrebbe", "andremmo", "andreste", "andrebbero"],
+    congiuntivo_presente: ["vada", "vada", "vada", "andiamo", "andiate", "vadano"],
+  },
+  venire: {
+    presente: ["vengo", "vieni", "viene", "veniamo", "venite", "vengono"],
+    futuro: ["verrò", "verrai", "verrà", "verremo", "verrete", "verranno"],
+    condizionale: ["verrei", "verresti", "verrebbe", "verremmo", "verreste", "verrebbero"],
+    congiuntivo_presente: ["venga", "venga", "venga", "veniamo", "veniate", "vengano"],
+  },
+  dare: {
+    presente: ["do", "dai", "dà", "diamo", "date", "danno"],
+    futuro: ["darò", "darai", "darà", "daremo", "darete", "daranno"],
+    condizionale: ["darei", "daresti", "darebbe", "daremmo", "dareste", "darebbero"],
+    congiuntivo_presente: ["dia", "dia", "dia", "diamo", "diate", "diano"],
+  },
+  vedere: {
+    futuro: ["vedrò", "vedrai", "vedrà", "vedremo", "vedrete", "vedranno"],
+    condizionale: ["vedrei", "vedresti", "vedrebbe", "vedremmo", "vedreste", "vedrebbero"],
+    congiuntivo_presente: ["veda", "veda", "veda", "vediamo", "vediate", "vedano"],
+  },
+  uscire: {
+    presente: ["esco", "esci", "esce", "usciamo", "uscite", "escono"],
+    congiuntivo_presente: ["esca", "esca", "esca", "usciamo", "usciate", "escano"],
+  },
+  vivere: {
+    futuro: ["vivrò", "vivrai", "vivrà", "vivremo", "vivrete", "vivranno"],
+    condizionale: ["vivrei", "vivresti", "vivrebbe", "vivremmo", "vivreste", "vivrebbero"],
+  },
+  morire: {
+    presente: ["muoio", "muori", "muore", "moriamo", "morite", "muoiono"],
+    congiuntivo_presente: ["muoia", "muoia", "muoia", "moriamo", "moriate", "muoiano"],
+  },
+  bere: {
+    presente: ["bevo", "bevi", "beve", "beviamo", "bevete", "bevono"],
+    imperfetto: ["bevevo", "bevevi", "beveva", "bevevamo", "bevevate", "bevevano"],
+    futuro: ["berrò", "berrai", "berrà", "berremo", "berrete", "berranno"],
+    condizionale: ["berrei", "berresti", "berrebbe", "berremmo", "berreste", "berrebbero"],
+    congiuntivo_presente: ["beva", "beva", "beva", "beviamo", "beviate", "bevano"],
+  },
+  piacere: {
+    presente: ["piaccio", "piaci", "piace", "piacciamo", "piacete", "piacciono"],
+    congiuntivo_presente: ["piaccia", "piaccia", "piaccia", "piacciamo", "piacciate", "piacciano"],
+  },
+  tenere: {
+    presente: ["tengo", "tieni", "tiene", "teniamo", "tenete", "tengono"],
+    futuro: ["terrò", "terrai", "terrà", "terremo", "terrete", "terranno"],
+    condizionale: ["terrei", "terresti", "terrebbe", "terremmo", "terreste", "terrebbero"],
+    congiuntivo_presente: ["tenga", "tenga", "tenga", "teniamo", "teniate", "tengano"],
+  },
+  riuscire: {
+    presente: ["riesco", "riesci", "riesce", "riusciamo", "riuscite", "riescono"],
+    congiuntivo_presente: ["riesca", "riesca", "riesca", "riusciamo", "riusciate", "riescano"],
+  },
+  rimanere: {
+    presente: ["rimango", "rimani", "rimane", "rimaniamo", "rimanete", "rimangono"],
+    futuro: ["rimarrò", "rimarrai", "rimarrà", "rimarremo", "rimarrete", "rimarranno"],
+    condizionale: ["rimarrei", "rimarresti", "rimarrebbe", "rimarremmo", "rimarreste", "rimarrebbero"],
+    congiuntivo_presente: ["rimanga", "rimanga", "rimanga", "rimaniamo", "rimaniate", "rimangano"],
+  },
+  cadere: {
+    futuro: ["cadrò", "cadrai", "cadrà", "cadremo", "cadrete", "cadranno"],
+    condizionale: ["cadrei", "cadresti", "cadrebbe", "cadremmo", "cadreste", "cadrebbero"],
+  },
+  scegliere: {
+    presente: ["scelgo", "scegli", "sceglie", "scegliamo", "scegliete", "scelgono"],
+    congiuntivo_presente: ["scelga", "scelga", "scelga", "scegliamo", "scegliate", "scelgano"],
+  },
+  nascere: {
+    presente: ["nasco", "nasci", "nasce", "nasciamo", "nascete", "nascono"],
+    futuro: ["nascerò", "nascerai", "nascerà", "nasceremo", "nascerete", "nasceranno"],
+    congiuntivo_presente: ["nasca", "nasca", "nasca", "nasciamo", "nasciate", "nascano"],
+  },
+  crescere: {
+    presente: ["cresco", "cresci", "cresce", "cresciamo", "crescete", "crescono"],
+    congiuntivo_presente: ["cresca", "cresca", "cresca", "cresciamo", "cresciate", "crescano"],
+  },
+  vincere: {
+    presente: ["vinco", "vinci", "vince", "vinciamo", "vincete", "vincono"],
+    congiuntivo_presente: ["vinca", "vinca", "vinca", "vinciamo", "vinciate", "vincano"],
+  },
+  produrre: {
+    presente: ["produco", "produci", "produce", "produciamo", "producete", "producono"],
+    imperfetto: ["producevo", "producevi", "produceva", "producevamo", "producevate", "producevano"],
+    futuro: ["produrrò", "produrrai", "produrrà", "produrremo", "produrrete", "produrranno"],
+    condizionale: ["produrrei", "produrresti", "produrrebbe", "produrremmo", "produrreste", "produrrebbero"],
+    congiuntivo_presente: ["produca", "produca", "produca", "produciamo", "produciate", "producano"],
+  },
+};
+
+const AVERE_PRESENTE = ["ho", "hai", "ha", "abbiamo", "avete", "hanno"];
+const ESSERE_PRESENTE = ["sono", "sei", "è", "siamo", "siete", "sono"];
+const FUTURE_ENDINGS = ["ò", "ai", "à", "emo", "ete", "anno"];
+const CONDITIONAL_ENDINGS = ["ei", "esti", "ebbe", "emmo", "este", "ebbero"];
+
+function regularConjugations(verb) {
+  return {
+    presente: regularPresente(verb),
+    passato_prossimo: passatoProssimo(verb),
+    imperfetto: regularImperfetto(verb),
+    futuro: regularFuturo(verb),
+    condizionale: regularCondizionale(verb),
+    congiuntivo_presente: regularCongiuntivoPresente(verb),
+  };
+}
+
+function verbEnding(infinitive) {
+  return infinitive.slice(-3);
+}
+
+function verbStem(infinitive) {
+  return infinitive.slice(0, -3);
+}
+
+function joinStem(stem, ending) {
+  return stem.endsWith("i") && ending.startsWith("i") ? stem.slice(0, -1) + ending : stem + ending;
+}
+
+function hardCOrGStem(stem, ending) {
+  if (!/^[ie]/.test(ending)) return stem;
+  if (stem.endsWith("c") || stem.endsWith("g")) return `${stem}h`;
+  return stem;
+}
+
+function regularPresente(verb) {
+  const ending = verbEnding(verb.it);
+  const stem = verbStem(verb.it);
+  if (ending === "are") {
+    return ["o", "i", "a", "iamo", "ate", "ano"].map((suffix) => joinStem(hardCOrGStem(stem, suffix), suffix));
+  }
+  if (ending === "ere") {
+    return ["o", "i", "e", "iamo", "ete", "ono"].map((suffix) => joinStem(stem, suffix));
+  }
+  if (verb.isc) {
+    return [`${stem}isco`, `${stem}isci`, `${stem}isce`, `${stem}iamo`, `${stem}ite`, `${stem}iscono`];
+  }
+  return ["o", "i", "e", "iamo", "ite", "ono"].map((suffix) => joinStem(stem, suffix));
+}
+
+function regularImperfetto(verb) {
+  const ending = verbEnding(verb.it);
+  const stem = verbStem(verb.it);
+  const vowel = ending === "are" ? "a" : ending === "ere" ? "e" : "i";
+  return ["vo", "vi", "va", "vamo", "vate", "vano"].map((suffix) => `${stem}${vowel}${suffix}`);
+}
+
+function futureStem(verb) {
+  const ending = verbEnding(verb.it);
+  let stem = verbStem(verb.it);
+  if (ending === "ire") return `${stem}ir`;
+  if (ending === "are") {
+    if (stem.endsWith("c") || stem.endsWith("g")) return `${stem}her`;
+    if (stem.endsWith("i")) stem = stem.slice(0, -1);
+  }
+  return `${stem}er`;
+}
+
+function regularFuturo(verb) {
+  const stem = futureStem(verb);
+  return FUTURE_ENDINGS.map((ending) => `${stem}${ending}`);
+}
+
+function regularCondizionale(verb) {
+  const stem = futureStem(verb);
+  return CONDITIONAL_ENDINGS.map((ending) => `${stem}${ending}`);
+}
+
+function regularCongiuntivoPresente(verb) {
+  const ending = verbEnding(verb.it);
+  const stem = verbStem(verb.it);
+  if (ending === "are") {
+    return ["i", "i", "i", "iamo", "iate", "ino"].map((suffix) => joinStem(hardCOrGStem(stem, suffix), suffix));
+  }
+  if (verb.isc) {
+    return [`${stem}isca`, `${stem}isca`, `${stem}isca`, `${stem}iamo`, `${stem}iate`, `${stem}iscano`];
+  }
+  return ["a", "a", "a", "iamo", "iate", "ano"].map((suffix) => joinStem(stem, suffix));
+}
+
+function passatoProssimo(verb) {
+  const aux = verb.aux === "essere" ? ESSERE_PRESENTE : AVERE_PRESENTE;
+  if (verb.aux !== "essere") return aux.map((helper) => `${helper} ${verb.participle}`);
+
+  const singular = verb.participle.endsWith("o") ? `${verb.participle}/a` : verb.participle;
+  const plural = verb.participle.endsWith("o") ? `${verb.participle.slice(0, -1)}i/e` : verb.participle;
+  return [`${aux[0]} ${singular}`, `${aux[1]} ${singular}`, `${aux[2]} ${singular}`, `${aux[3]} ${plural}`, `${aux[4]} ${plural}`, `${aux[5]} ${plural}`];
+}
+
+function buildVerb(verb) {
+  return {
+    ...verb,
+    forms: {
+      ...regularConjugations(verb),
+      ...(IRREGULAR_FORMS[verb.id] || {}),
+    },
+  };
+}
+
+const VERBS = VERB_DATA.map(buildVerb);
 
 const STORAGE_KEY = "coniugare-settings-v1";
 
@@ -241,6 +420,7 @@ const els = {
 let state = loadState();
 let answersChecked = false;
 let checkedHasMistakes = false;
+let pendingChoiceFocus = null;
 
 function loadState() {
   try {
@@ -297,7 +477,7 @@ function fuzzyScore(query, text) {
 }
 
 function searchableVerb(verb) {
-  return `${verb.it} ${verb.en}`;
+  return `${verb.it} ${verb.en} ${verb.irregular ? "irregular" : "regular"}`;
 }
 
 function searchableForm(form) {
@@ -325,10 +505,12 @@ function renderChoiceList({ items, selectedIds, query, container, getTitle, getS
     const selected = selectedIds.includes(item.id);
     button.type = "button";
     button.className = "choice";
+    button.dataset.choiceId = item.id;
     button.setAttribute("role", "option");
     button.setAttribute("aria-selected", selected.toString());
     button.addEventListener("click", (event) => {
       event.stopPropagation();
+      pendingChoiceFocus = { containerId: container.id, choiceId: item.id };
       onToggle(item.id);
     });
 
@@ -349,6 +531,70 @@ function renderChoiceList({ items, selectedIds, query, container, getTitle, getS
     button.append(check, text);
     container.append(button);
   });
+
+  if (pendingChoiceFocus?.containerId === container.id) {
+    const target = [...container.querySelectorAll(".choice")]
+      .find((button) => button.dataset.choiceId === pendingChoiceFocus.choiceId);
+    target?.focus();
+    target?.scrollIntoView({ block: "nearest" });
+    pendingChoiceFocus = null;
+  }
+}
+
+function choiceButtons(container) {
+  return [...container.querySelectorAll(".choice")];
+}
+
+function focusChoice(container, index) {
+  const buttons = choiceButtons(container);
+  if (!buttons.length) return;
+  const boundedIndex = Math.max(0, Math.min(index, buttons.length - 1));
+  buttons[boundedIndex].focus();
+  buttons[boundedIndex].scrollIntoView({ block: "nearest" });
+}
+
+function moveChoiceFocus(container, direction) {
+  const buttons = choiceButtons(container);
+  if (!buttons.length) return;
+  const currentIndex = buttons.indexOf(document.activeElement);
+  const nextIndex = currentIndex === -1
+    ? (direction > 0 ? 0 : buttons.length - 1)
+    : currentIndex + direction;
+  focusChoice(container, nextIndex);
+}
+
+function handleChoiceListKeydown(event, container) {
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    moveChoiceFocus(container, 1);
+  }
+
+  if (event.key === "ArrowUp") {
+    event.preventDefault();
+    moveChoiceFocus(container, -1);
+  }
+
+  if (event.key === "Home") {
+    event.preventDefault();
+    focusChoice(container, 0);
+  }
+
+  if (event.key === "End") {
+    event.preventDefault();
+    focusChoice(container, choiceButtons(container).length - 1);
+  }
+}
+
+function handleChoiceSearchKeydown(event, container) {
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    focusChoice(container, 0);
+  }
+
+  if (event.key === "ArrowUp") {
+    event.preventDefault();
+    focusChoice(container, choiceButtons(container).length - 1);
+  }
 }
 
 function renderSettings() {
@@ -364,7 +610,7 @@ function renderSettings() {
     query: els.verbSearch.value,
     container: els.verbList,
     getTitle: (verb) => verb.it,
-    getSubtitle: (verb) => verb.en,
+    getSubtitle: (verb) => `${verb.en} · ${verb.irregular ? "irregular" : "regular"}`,
     getSearchText: searchableVerb,
     onToggle: toggleVerb,
   });
@@ -619,6 +865,18 @@ function focusPickerSearch(kind) {
   });
 }
 
+function closePicker(picker) {
+  picker.open = false;
+  document.querySelector(".answer-input:not(:disabled)")?.focus();
+}
+
+function closePickerOnEnter(event, picker) {
+  if (!picker.open || event.key !== "Enter" || !event.target.closest(".picker-menu")) return;
+  event.preventDefault();
+  event.stopPropagation();
+  closePicker(picker);
+}
+
 els.learnerName.addEventListener("input", (event) => {
   state.name = event.target.value.trim();
   saveState();
@@ -633,18 +891,18 @@ els.promptLanguage.addEventListener("change", (event) => {
 
 els.verbSearch.addEventListener("input", renderSettings);
 els.formSearch.addEventListener("input", renderSettings);
+els.verbSearch.addEventListener("keydown", (event) => handleChoiceSearchKeydown(event, els.verbList));
+els.formSearch.addEventListener("keydown", (event) => handleChoiceSearchKeydown(event, els.formList));
+els.verbList.addEventListener("keydown", (event) => handleChoiceListKeydown(event, els.verbList));
+els.formList.addEventListener("keydown", (event) => handleChoiceListKeydown(event, els.formList));
+els.verbPicker.addEventListener("keydown", (event) => closePickerOnEnter(event, els.verbPicker));
+els.formPicker.addEventListener("keydown", (event) => closePickerOnEnter(event, els.formPicker));
 els.selectAllVerbs.addEventListener("click", () => selectAll("verbs"));
 els.clearVerbs.addEventListener("click", () => clearAll("verbs"));
-els.doneVerbs.addEventListener("click", () => {
-  els.verbPicker.open = false;
-  document.querySelector(".answer-input:not(:disabled)")?.focus();
-});
+els.doneVerbs.addEventListener("click", () => closePicker(els.verbPicker));
 els.selectAllForms.addEventListener("click", () => selectAll("forms"));
 els.clearForms.addEventListener("click", () => clearAll("forms"));
-els.doneForms.addEventListener("click", () => {
-  els.formPicker.open = false;
-  document.querySelector(".answer-input:not(:disabled)")?.focus();
-});
+els.doneForms.addEventListener("click", () => closePicker(els.formPicker));
 els.verbPicker.addEventListener("toggle", () => {
   if (els.verbPicker.open) els.formPicker.open = false;
 });

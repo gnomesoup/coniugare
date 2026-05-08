@@ -70,17 +70,16 @@ summary {
 }
 
 button:hover,
-summary:hover,
-summary:focus-visible {
+summary:hover {
   border-color: var(--blue);
   color: var(--fg-bright);
   background: var(--highlight-dim);
 }
 
 button:focus-visible {
-  border-color: var(--func);
-  outline: 2px solid var(--func);
-  outline-offset: 2px;
+  border-color: var(--yellow);
+  outline: 3px solid var(--yellow);
+  outline-offset: 0;
 }
 
 button:active,
@@ -103,7 +102,7 @@ button.primary:hover {
 
 button.primary:focus-visible {
   background: var(--yellow);
-  border-color: var(--func);
+  border-color: var(--yellow);
   color: var(--bg-alt-3);
 }
 
@@ -120,11 +119,6 @@ select {
 input:focus,
 select:focus,
 summary:focus-visible {
-  outline: 2px solid var(--blue);
-  outline-offset: 2px;
-}
-
-input:focus {
   border-color: var(--yellow);
   outline: 3px solid var(--yellow);
   outline-offset: 0;
