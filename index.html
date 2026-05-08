@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coniugare</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero">
+        <p id="welcome" class="eyebrow">Welcome</p>
+        <h1>coniugare</h1>
+
+        <div class="picker-bar" aria-label="Quiz settings">
+          <details id="verbPicker" class="picker">
+            <summary>
+              <span>Verbs</span>
+              <strong id="verbCount">0 selected</strong>
+            </summary>
+            <div class="picker-menu">
+              <input id="verbSearch" class="search" type="search" placeholder="Search English or Italian verbs…" autocomplete="off" />
+              <div class="quick-actions" aria-label="Verb selection actions">
+                <button id="selectAllVerbs" type="button">All</button>
+                <button id="clearVerbs" type="button">Clear</button>
+              </div>
+              <div id="verbList" class="choice-list" role="listbox" aria-multiselectable="true"></div>
+            </div>
+          </details>
+
+          <details id="formPicker" class="picker">
+            <summary>
+              <span>Forms</span>
+              <strong id="formCount">0 selected</strong>
+            </summary>
+            <div class="picker-menu">
+              <input id="formSearch" class="search" type="search" placeholder="Search English or Italian forms…" autocomplete="off" />
+              <div class="quick-actions" aria-label="Form selection actions">
+                <button id="selectAllForms" type="button">All</button>
+                <button id="clearForms" type="button">Clear</button>
+              </div>
+              <div id="formList" class="choice-list" role="listbox" aria-multiselectable="true"></div>
+            </div>
+          </details>
+
+          <label class="bar-field name-field" title="Remember me settings">
+            <span>Name</span>
+            <input id="learnerName" type="text" autocomplete="name" placeholder="Your name" />
+          </label>
+
+          <label class="bar-field toggle" title="Switch prompt language">
+            <span>Prompt</span>
+            <select id="promptLanguage" aria-label="Prompt language">
+              <option value="both">Italian + English</option>
+              <option value="it">Italian</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+        </div>
+      </header>
+
+      <section class="quiz-panel" aria-label="Conjugation quiz">
+        <div class="quiz-toolbar">
+          <div>
+            <h2 id="quizTitle">Ready?</h2>
+            <p id="quizSubtitle" class="muted">Choose at least one verb and one form to start.</p>
+          </div>
+          <button id="newRound" type="button" class="primary">New round</button>
+        </div>
+
+        <form id="quizForm" class="answer-grid" autocomplete="off"></form>
+
+        <div class="result-bar" aria-live="polite">
+          <div>
+            <strong id="scoreText">No answers checked yet.</strong>
+            <p id="hintText" class="muted">Keyboard: <kbd>/</kbd> verbs, <kbd>F</kbd> forms, <kbd>⌘/Ctrl</kbd> + <kbd>Enter</kbd> check, <kbd>Alt</kbd> + <kbd>N</kbd> next.</p>
+          </div>
+          <button id="checkAnswers" type="button">Check answers</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
