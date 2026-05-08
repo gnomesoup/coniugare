@@ -17,6 +17,7 @@ const els = {
   verbCount: document.querySelector("#verbCount"),
   formCount: document.querySelector("#formCount"),
   selectAllVerbs: document.querySelector("#selectAllVerbs"),
+  checkedVerbsOnly: document.querySelector("#checkedVerbsOnly"),
   clearVerbs: document.querySelector("#clearVerbs"),
   doneVerbs: document.querySelector("#doneVerbs"),
   selectAllForms: document.querySelector("#selectAllForms"),
@@ -39,6 +40,7 @@ const DEFAULT_CONTACT_EMAIL = "hello@coniugare.app";
 let state = loadState();
 let answersChecked = false;
 let checkedHasMistakes = false;
+let showCheckedVerbsOnly = false;
 let pendingChoiceFocus = null;
 let escapePrimed = false;
 
@@ -159,18 +161,45 @@ function searchableForm(form) {
   return `${form.it} ${form.en} ${form.hint}`;
 }
 
-function renderChoiceList({ items, selectedIds, query, container, getTitle, getSubtitle, getSearchText, onToggle }) {
+function alphabetizeByItalian(a, b) {
+  return a.it.localeCompare(b.it, "it", { sensitivity: "base" });
+}
+
+function verbSearchRank(verb, query) {
+  const q = normalize(query);
+  const it = normalize(verb.it);
+  const en = normalize(verb.en);
+  const regularity = verb.irregular ? "irregular" : "regular";
+
+  if (it === q || en === q) return 0;
+  if (it.startsWith(q) || en.startsWith(q)) return 1;
+  if (regularity === q) return 2;
+  if (it.includes(q) || en.includes(q)) return 3;
+  if (searchableVerb(verb).includes(q)) return 4;
+  return 5;
+}
+
+function sortVerbSearchResults(a, b, query) {
+  return verbSearchRank(a, query) - verbSearchRank(b, query) || alphabetizeByItalian(a, b);
+}
+
+function renderChoiceList({ items, selectedIds, query, container, getTitle, getSubtitle, getSearchText, onToggle, sortWhenIdle, sortWhenSearching, emptyText = "No matches. Try another search." }) {
+  const hasQuery = Boolean(normalize(query));
   const scored = items
     .map((item, index) => ({ item, index, score: fuzzyScore(query, getSearchText(item)) }))
     .filter(({ score }) => score > -Infinity)
-    .sort((a, b) => (query ? b.score - a.score : a.index - b.index));
+    .sort((a, b) => {
+      if (hasQuery) return sortWhenSearching ? sortWhenSearching(a.item, b.item, query) : b.score - a.score;
+      if (sortWhenIdle) return sortWhenIdle(a.item, b.item);
+      return a.index - b.index;
+    });
 
   container.replaceChildren();
 
   if (!scored.length) {
     const empty = document.createElement("p");
     empty.className = "muted";
-    empty.textContent = "No matches. Try another search.";
+    empty.textContent = emptyText;
     container.append(empty);
     return;
   }
@@ -280,9 +309,15 @@ function renderSettings() {
   });
   els.verbCount.textContent = `${state.selectedVerbIds.length} selected`;
   els.formCount.textContent = `${state.selectedFormIds.length} selected`;
+  els.checkedVerbsOnly.classList.toggle("selected", showCheckedVerbsOnly);
+  els.checkedVerbsOnly.setAttribute("aria-pressed", showCheckedVerbsOnly.toString());
+
+  const visibleVerbs = showCheckedVerbsOnly
+    ? VERBS.filter((verb) => state.selectedVerbIds.includes(verb.id))
+    : VERBS;
 
   renderChoiceList({
-    items: VERBS,
+    items: visibleVerbs,
     selectedIds: state.selectedVerbIds,
     query: els.verbSearch.value,
     container: els.verbList,
@@ -290,6 +325,9 @@ function renderSettings() {
     getSubtitle: (verb) => `${verb.en} · ${verb.irregular ? "irregular" : "regular"}`,
     getSearchText: searchableVerb,
     onToggle: toggleVerb,
+    sortWhenIdle: alphabetizeByItalian,
+    sortWhenSearching: sortVerbSearchResults,
+    emptyText: showCheckedVerbsOnly ? "No checked verbs match." : "No matches. Try another search.",
   });
 
   renderChoiceList({
@@ -572,6 +610,10 @@ els.promptLanguage.addEventListener("click", (event) => {
 
 els.verbSearch.addEventListener("input", renderSettings);
 els.formSearch.addEventListener("input", renderSettings);
+els.checkedVerbsOnly.addEventListener("click", () => {
+  showCheckedVerbsOnly = !showCheckedVerbsOnly;
+  renderSettings();
+});
 els.verbSearch.addEventListener("keydown", (event) => handleChoiceSearchKeydown(event, els.verbList));
 els.formSearch.addEventListener("keydown", (event) => handleChoiceSearchKeydown(event, els.formList));
 els.verbList.addEventListener("keydown", (event) => handleChoiceListKeydown(event, els.verbList));

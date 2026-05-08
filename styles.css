@@ -294,9 +294,30 @@ h2 {
 
 .quick-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
   gap: 0.55rem;
   margin-bottom: 0.65rem;
+}
+
+.quick-actions button[aria-pressed="true"] {
+  border-color: var(--green);
+  background: var(--green-bg);
+  color: var(--success);
+}
+
+.filter-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.filter-button::before {
+  content: "";
+  width: 0.9em;
+  height: 0.9em;
+  background: currentColor;
+  clip-path: polygon(8% 12%, 92% 12%, 58% 52%, 58% 88%, 42% 88%, 42% 52%);
 }
 
 .choice-list {
@@ -313,6 +334,7 @@ h2 {
 }
 
 .choice {
+  position: relative;
   width: 100%;
   display: grid;
   grid-template-columns: auto 1fr;
@@ -320,6 +342,11 @@ h2 {
   align-items: center;
   text-align: left;
   padding: 0.65rem 0.7rem;
+}
+
+.choice:focus-visible {
+  z-index: 1;
+  outline-offset: -3px;
 }
 
 .choice[aria-selected="true"] {
