@@ -138,12 +138,31 @@ h1 {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: clamp(0.45rem, 1.2vw, 0.85rem);
+  font-size: clamp(3rem, 10vw, 7rem);
+}
+
+.brand-icon {
+  position: relative;
+  left: 7px;
+  top: 14px;
+  width: auto;
+  height: 0.72em;
+  flex: 0 0 auto;
+  margin-right: -7px;
+}
+
+.brand-title {
   /* Anchor the subtitle on the dot of the “i” in coniugare. */
   --tagline-x: calc(1.52em + 4px);
   --tagline-y: 0.18em;
   position: relative;
   display: inline-block;
-  font-size: clamp(3rem, 10vw, 7rem);
+  font-size: 1em;
 }
 
 .tagline {
@@ -412,7 +431,7 @@ h2 {
 
 .answer-row {
   display: grid;
-  grid-template-columns: minmax(11rem, 1fr) minmax(18rem, 34rem);
+  grid-template-columns: minmax(11rem, 1fr) minmax(7rem, 14rem) minmax(18rem, 34rem);
   align-items: center;
   column-gap: 1rem;
   row-gap: 0.25rem;
@@ -423,6 +442,8 @@ h2 {
 }
 
 .pronoun {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   align-items: baseline;
   gap: 0.45rem;
@@ -441,7 +462,8 @@ h2 {
 }
 
 .answer-input {
-  grid-column: 2;
+  grid-column: 3;
+  grid-row: 1;
   justify-self: end;
   width: min(100%, 34rem);
   font-size: clamp(1.05rem, 2vw, 1.55rem);
@@ -451,10 +473,12 @@ h2 {
 
 .feedback {
   grid-column: 2;
-  justify-self: stretch;
+  grid-row: 1;
+  justify-self: end;
   color: var(--muted);
-  font-size: 0.9rem;
-  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: right;
 }
 
 .feedback:empty {
@@ -526,7 +550,17 @@ h2 {
   .answer-input,
   .feedback {
     grid-column: 1;
+    grid-row: auto;
     width: 100%;
+  }
+
+  .pronoun {
+    grid-row: auto;
+  }
+
+  .feedback {
+    justify-self: start;
+    text-align: left;
   }
 
   .pronoun,

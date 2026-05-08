@@ -441,9 +441,11 @@ function checkAnswers() {
     row.classList.toggle("incorrect", !ok);
     if (ok) {
       correct += 1;
-      feedback.textContent = "correct";
+      feedback.textContent = "✓";
+      feedback.setAttribute("aria-label", "correct");
     } else {
-      feedback.textContent = `→ ${canonicalAnswer(expected[index])}`;
+      feedback.textContent = canonicalAnswer(expected[index]);
+      feedback.removeAttribute("aria-label");
     }
   });
 
@@ -565,11 +567,23 @@ els.quizForm.addEventListener("input", (event) => {
   });
 });
 els.quizForm.addEventListener("keydown", (event) => {
-  if (event.key !== "Enter" || event.isComposing || !event.target.classList.contains("answer-input")) return;
+  if (event.isComposing || !event.target.classList.contains("answer-input")) return;
+
+  const inputs = [...els.quizForm.querySelectorAll(".answer-input")];
+  const currentIndex = inputs.indexOf(event.target);
+
+  if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+    event.preventDefault();
+    const direction = event.key === "ArrowUp" ? -1 : 1;
+    const nextIndex = Math.max(0, Math.min(currentIndex + direction, inputs.length - 1));
+    inputs[nextIndex]?.focus();
+    return;
+  }
+
+  if (event.key !== "Enter") return;
 
   event.preventDefault();
 
-  const inputs = [...els.quizForm.querySelectorAll(".answer-input")];
   const allFilled = inputs.every((input) => input.value.trim());
 
   if (allFilled) {
@@ -579,7 +593,6 @@ els.quizForm.addEventListener("keydown", (event) => {
     return;
   }
 
-  const currentIndex = inputs.indexOf(event.target);
   const nextInput = inputs.slice(currentIndex + 1).find((input) => !input.value.trim())
     || inputs[currentIndex + 1]
     || inputs.find((input) => !input.value.trim());
