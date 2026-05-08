@@ -570,6 +570,7 @@ function checkAnswers() {
 
   els.scoreText.textContent = `${correct} / ${PRONOUNS.length} correct`;
   setAnswersChecked(true, { hasMistakes: correct < PRONOUNS.length });
+  requestAnimationFrame(() => els.checkAnswers.focus());
 }
 
 function clearRound({ focusFirst = true } = {}) {

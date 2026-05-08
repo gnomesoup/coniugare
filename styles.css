@@ -70,12 +70,17 @@ summary {
 }
 
 button:hover,
-button:focus-visible,
 summary:hover,
 summary:focus-visible {
   border-color: var(--blue);
   color: var(--fg-bright);
   background: var(--highlight-dim);
+}
+
+button:focus-visible {
+  border-color: var(--func);
+  outline: 2px solid var(--func);
+  outline-offset: 2px;
 }
 
 button:active,
@@ -90,10 +95,15 @@ button.primary {
   font-weight: 800;
 }
 
-button.primary:hover,
-button.primary:focus-visible {
+button.primary:hover {
   background: var(--success);
   border-color: var(--success);
+  color: var(--bg-alt-3);
+}
+
+button.primary:focus-visible {
+  background: var(--yellow);
+  border-color: var(--func);
   color: var(--bg-alt-3);
 }
 
@@ -109,7 +119,6 @@ select {
 
 input:focus,
 select:focus,
-button:focus-visible,
 summary:focus-visible {
   outline: 2px solid var(--blue);
   outline-offset: 2px;
@@ -212,7 +221,7 @@ h2 {
 
 .picker summary::after {
   content: "↓";
-  color: var(--blue);
+  color: var(--func);
   font-weight: 900;
 }
 
@@ -420,8 +429,12 @@ h2 {
 }
 
 .pronoun strong {
-  color: var(--blue);
-  font-size: 1.1rem;
+  color: var(--func);
+  font-size: clamp(1.45rem, 2.4vw, 2rem);
+}
+
+.pronoun .muted {
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
 }
 
 .answer-input {
