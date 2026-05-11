@@ -50,7 +50,7 @@ Static hosts that support build commands can run the same command before publish
 2. Choose one or more conjugation forms from **Forms**.
 3. Optionally pick a prompt language.
 4. Type the Italian conjugation for each pronoun.
-5. Select **Check answers** to see your score and corrections.
+5. Select **Controlla le risposte** to see your score and corrections.
 6. Move to another random verb/form round with the arrow button.
 
 ## Keyboard shortcuts
@@ -61,7 +61,7 @@ Static hosts that support build commands can run the same command before publish
 | `F` | Focus form search |
 | `Alt + V` | Focus/open verb picker |
 | `Alt + F` | Focus/open form picker |
-| `Cmd/Ctrl + Enter` | Check answers, clear incorrect answers, or advance after a perfect score |
+| `Cmd/Ctrl + Enter` | Controlla le risposte, clear incorrect answers, or advance after a perfect score |
 | `Alt + N` | New random round |
 
 ## Project structure

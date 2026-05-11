@@ -5,6 +5,7 @@ const DEFAULT_STATE = {
   selectedFormIds: ["presente"],
   promptLanguage: "both",
   currentRound: null,
+  roundQueue: [],
 };
 
 const els = {
@@ -49,6 +50,7 @@ function defaultState() {
     ...DEFAULT_STATE,
     selectedVerbIds: [...DEFAULT_STATE.selectedVerbIds],
     selectedFormIds: [...DEFAULT_STATE.selectedFormIds],
+    roundQueue: [...DEFAULT_STATE.roundQueue],
   };
 }
 
@@ -58,15 +60,35 @@ function loadState() {
     if (!saved || typeof saved !== "object") return defaultState();
 
     const defaults = defaultState();
+    const selectedVerbIds = Array.isArray(saved.selectedVerbIds)
+      ? saved.selectedVerbIds.filter((id) => VERBS.some((verb) => verb.id === id))
+      : defaults.selectedVerbIds;
+    const selectedFormIds = Array.isArray(saved.selectedFormIds)
+      ? saved.selectedFormIds.filter((id) => FORMS.some((form) => form.id === id))
+      : defaults.selectedFormIds;
+    const roundIsValid = (round) => round
+      && typeof round === "object"
+      && selectedVerbIds.includes(round.verbId)
+      && selectedFormIds.includes(round.formId);
+    const seenRoundKeys = new Set();
+    const roundQueue = Array.isArray(saved.roundQueue)
+      ? saved.roundQueue
+        .filter(roundIsValid)
+        .filter((round) => {
+          const key = `${round.verbId}:${round.formId}`;
+          if (seenRoundKeys.has(key)) return false;
+          seenRoundKeys.add(key);
+          return true;
+        })
+        .map((round) => ({ verbId: round.verbId, formId: round.formId }))
+      : defaults.roundQueue;
+
     return {
-      selectedVerbIds: Array.isArray(saved.selectedVerbIds)
-        ? saved.selectedVerbIds.filter((id) => VERBS.some((verb) => verb.id === id))
-        : defaults.selectedVerbIds,
-      selectedFormIds: Array.isArray(saved.selectedFormIds)
-        ? saved.selectedFormIds.filter((id) => FORMS.some((form) => form.id === id))
-        : defaults.selectedFormIds,
+      selectedVerbIds,
+      selectedFormIds,
       promptLanguage: ["both", "it", "en"].includes(saved.promptLanguage) ? saved.promptLanguage : defaults.promptLanguage,
-      currentRound: saved.currentRound && typeof saved.currentRound === "object" ? saved.currentRound : null,
+      currentRound: roundIsValid(saved.currentRound) ? { verbId: saved.currentRound.verbId, formId: saved.currentRound.formId } : null,
+      roundQueue,
     };
   } catch {
     return defaultState();
@@ -345,6 +367,7 @@ function renderSettings() {
 function toggleVerb(id) {
   state.selectedVerbIds = toggleId(state.selectedVerbIds, id);
   keepRoundValid();
+  resetRoundQueue();
   saveState();
   render();
 }
@@ -352,6 +375,7 @@ function toggleVerb(id) {
 function toggleForm(id) {
   state.selectedFormIds = toggleId(state.selectedFormIds, id);
   keepRoundValid();
+  resetRoundQueue();
   saveState();
   render();
 }
@@ -372,6 +396,75 @@ function keepRoundValid() {
   const verbValid = state.currentRound && state.selectedVerbIds.includes(state.currentRound.verbId);
   const formValid = state.currentRound && state.selectedFormIds.includes(state.currentRound.formId);
   if (!verbValid || !formValid) state.currentRound = null;
+  state.roundQueue = sanitizeRoundQueue(state.roundQueue);
+}
+
+function roundKey(round) {
+  return round ? `${round.verbId}:${round.formId}` : "";
+}
+
+function selectedRounds() {
+  return state.selectedVerbIds.flatMap((verbId) => state.selectedFormIds.map((formId) => ({ verbId, formId })));
+}
+
+function sanitizeRoundQueue(queue) {
+  if (!Array.isArray(queue)) return [];
+
+  const seen = new Set();
+  return queue
+    .filter((round) => round
+      && state.selectedVerbIds.includes(round.verbId)
+      && state.selectedFormIds.includes(round.formId))
+    .filter((round) => {
+      const key = roundKey(round);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .map((round) => ({ verbId: round.verbId, formId: round.formId }));
+}
+
+function shuffled(items) {
+  const copy = [...items];
+  for (let index = copy.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+  }
+  return copy;
+}
+
+function moveCurrentRoundAwayFromFront(queue) {
+  const currentKey = roundKey(state.currentRound);
+  if (queue.length < 2 || roundKey(queue[0]) !== currentKey) return queue;
+
+  const swapIndex = queue.findIndex((round, index) => index > 0 && roundKey(round) !== currentKey);
+  if (swapIndex > 0) [queue[0], queue[swapIndex]] = [queue[swapIndex], queue[0]];
+  return queue;
+}
+
+function resetRoundQueue() {
+  const currentKey = roundKey(state.currentRound);
+  const rounds = selectedRounds();
+  const remaining = currentKey && rounds.length > 1
+    ? rounds.filter((round) => roundKey(round) !== currentKey)
+    : rounds;
+  state.roundQueue = shuffled(remaining);
+}
+
+function refillRoundQueue() {
+  state.roundQueue = moveCurrentRoundAwayFromFront(shuffled(selectedRounds()));
+}
+
+function takeNextRound() {
+  if (!state.selectedVerbIds.length || !state.selectedFormIds.length) {
+    state.currentRound = null;
+    state.roundQueue = [];
+    return;
+  }
+
+  state.roundQueue = sanitizeRoundQueue(state.roundQueue);
+  if (!state.roundQueue.length) refillRoundQueue();
+  state.currentRound = state.roundQueue.shift() || null;
 }
 
 function pressButton(button, action) {
@@ -383,15 +476,13 @@ function pressButton(button, action) {
 function newRound({ focusFirst = true } = {}) {
   if (!state.selectedVerbIds.length || !state.selectedFormIds.length) {
     state.currentRound = null;
+    state.roundQueue = [];
     saveState();
     renderQuiz();
     return;
   }
 
-  const rounds = state.selectedVerbIds.flatMap((verbId) => state.selectedFormIds.map((formId) => ({ verbId, formId })));
-  const currentKey = state.currentRound ? `${state.currentRound.verbId}:${state.currentRound.formId}` : null;
-  const nextRounds = rounds.length > 1 ? rounds.filter((round) => `${round.verbId}:${round.formId}` !== currentKey) : rounds;
-  state.currentRound = randomFrom(nextRounds);
+  takeNextRound();
   saveState();
   renderQuiz();
 
@@ -400,14 +491,24 @@ function newRound({ focusFirst = true } = {}) {
   }
 }
 
-function randomFrom(items) {
-  return items[Math.floor(Math.random() * items.length)];
-}
-
 function setAnswersChecked(checked, { hasMistakes = false } = {}) {
   answersChecked = checked;
   checkedHasMistakes = checked && hasMistakes;
-  els.checkAnswers.textContent = checked ? (hasMistakes ? "Try Again" : "Next Verb") : "Check answers";
+
+  if (!checked) {
+    els.checkAnswers.textContent = "Controlla le risposte";
+    els.checkAnswers.title = "Check answers";
+    return;
+  }
+
+  if (hasMistakes) {
+    els.checkAnswers.textContent = "Riprova";
+    els.checkAnswers.title = "Try again";
+    return;
+  }
+
+  els.checkAnswers.textContent = "Prossimo verbo";
+  els.checkAnswers.title = "Next verb";
 }
 
 function titleFor(verb, form) {
@@ -426,7 +527,7 @@ function renderQuiz() {
   keepRoundValid();
 
   if (!state.currentRound && state.selectedVerbIds.length && state.selectedFormIds.length) {
-    state.currentRound = { verbId: randomFrom(state.selectedVerbIds), formId: randomFrom(state.selectedFormIds) };
+    takeNextRound();
     saveState();
   }
 
@@ -559,6 +660,7 @@ function selectAll(type) {
   if (type === "verbs") state.selectedVerbIds = VERBS.map((verb) => verb.id);
   if (type === "forms") state.selectedFormIds = FORMS.map((form) => form.id);
   keepRoundValid();
+  resetRoundQueue();
   saveState();
   render();
 }
@@ -567,6 +669,7 @@ function clearAll(type) {
   if (type === "verbs") state.selectedVerbIds = [];
   if (type === "forms") state.selectedFormIds = [];
   keepRoundValid();
+  resetRoundQueue();
   saveState();
   render();
 }
