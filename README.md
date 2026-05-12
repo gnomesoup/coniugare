@@ -17,6 +17,7 @@ A fast, keyboard-friendly Italian verb conjugation quiz inspired by Monkeytype. 
 - Prompts in Italian, English, or both.
 - All six subject pronouns in every round.
 - Accent-insensitive checking, so `saro` is accepted for `sarò`.
+- Selected verbs and forms reflected in the URL for bookmarkable practice setups, with `verbs=all` for the full verb list.
 - Settings saved in `localStorage`.
 - Responsive dark UI using plain HTML, CSS, and JavaScript.
 

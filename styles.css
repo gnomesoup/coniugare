@@ -648,23 +648,31 @@ h2 {
   }
 
   .answer-row {
-    grid-template-columns: 1fr;
-  }
-
-  .answer-input,
-  .feedback {
-    grid-column: 1;
-    grid-row: auto;
-    width: 100%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 52%);
+    align-items: center;
   }
 
   .pronoun {
-    grid-row: auto;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .answer-input {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
   }
 
   .feedback {
-    justify-self: start;
-    text-align: left;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    width: auto;
+    max-width: 100%;
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   #hintText {

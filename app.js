@@ -1,7 +1,10 @@
 const STORAGE_KEY = "coniugare-settings-v1";
+const URL_VERBS_PARAM = "verbs";
+const URL_FORMS_PARAM = "forms";
+const URL_ALL_VALUE = "all";
 
 const DEFAULT_STATE = {
-  selectedVerbIds: ["essere", "avere", "fare", "andare", "parlare"],
+  selectedVerbIds: [],
   selectedFormIds: ["presente"],
   promptLanguage: "both",
   currentRound: null,
@@ -48,51 +51,80 @@ let escapePrimed = false;
 function defaultState() {
   return {
     ...DEFAULT_STATE,
-    selectedVerbIds: [...DEFAULT_STATE.selectedVerbIds],
+    selectedVerbIds: VERBS.map((verb) => verb.id),
     selectedFormIds: [...DEFAULT_STATE.selectedFormIds],
     roundQueue: [...DEFAULT_STATE.roundQueue],
   };
 }
 
+function idsFromUrl(params, name, validIds) {
+  const pathPrefix = `${name}=`;
+  const pathValues = window.location.pathname
+    .split("/")
+    .filter((part) => part.startsWith(pathPrefix))
+    .map((part) => decodeURIComponent(part.slice(pathPrefix.length)));
+  const rawValues = params.has(name) ? params.getAll(name) : pathValues;
+  if (!rawValues.length) return null;
+
+  const tokens = rawValues
+    .flatMap((value) => value.split(","))
+    .map((id) => id.trim());
+  if (tokens.includes(URL_ALL_VALUE)) return [...validIds];
+
+  const validIdSet = new Set(validIds);
+  const seen = new Set();
+  return tokens.filter((id) => {
+    if (!validIdSet.has(id) || seen.has(id)) return false;
+    seen.add(id);
+    return true;
+  });
+}
+
 function loadState() {
+  const defaults = defaultState();
+  const params = new URLSearchParams(window.location.search);
+  const urlVerbIds = idsFromUrl(params, URL_VERBS_PARAM, VERBS.map((verb) => verb.id));
+  const urlFormIds = idsFromUrl(params, URL_FORMS_PARAM, FORMS.map((form) => form.id));
+
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (!saved || typeof saved !== "object") return defaultState();
+    if (!saved || typeof saved !== "object") {
+      return {
+        ...defaults,
+        selectedVerbIds: urlVerbIds || defaults.selectedVerbIds,
+        selectedFormIds: urlFormIds || defaults.selectedFormIds,
+      };
+    }
 
-    const defaults = defaultState();
-    const selectedVerbIds = Array.isArray(saved.selectedVerbIds)
-      ? saved.selectedVerbIds.filter((id) => VERBS.some((verb) => verb.id === id))
-      : defaults.selectedVerbIds;
-    const selectedFormIds = Array.isArray(saved.selectedFormIds)
-      ? saved.selectedFormIds.filter((id) => FORMS.some((form) => form.id === id))
-      : defaults.selectedFormIds;
-    const roundIsValid = (round) => round
-      && typeof round === "object"
-      && selectedVerbIds.includes(round.verbId)
-      && selectedFormIds.includes(round.formId);
-    const seenRoundKeys = new Set();
-    const roundQueue = Array.isArray(saved.roundQueue)
-      ? saved.roundQueue
-        .filter(roundIsValid)
-        .filter((round) => {
-          const key = `${round.verbId}:${round.formId}`;
-          if (seenRoundKeys.has(key)) return false;
-          seenRoundKeys.add(key);
-          return true;
-        })
-        .map((round) => ({ verbId: round.verbId, formId: round.formId }))
-      : defaults.roundQueue;
-
+    const selectedVerbIds = urlVerbIds || defaults.selectedVerbIds;
+    const selectedFormIds = urlFormIds || defaults.selectedFormIds;
     return {
       selectedVerbIds,
       selectedFormIds,
       promptLanguage: ["both", "it", "en"].includes(saved.promptLanguage) ? saved.promptLanguage : defaults.promptLanguage,
-      currentRound: roundIsValid(saved.currentRound) ? { verbId: saved.currentRound.verbId, formId: saved.currentRound.formId } : null,
-      roundQueue,
+      currentRound: null,
+      roundQueue: defaults.roundQueue,
     };
   } catch {
-    return defaultState();
+    return {
+      ...defaults,
+      selectedVerbIds: urlVerbIds || defaults.selectedVerbIds,
+      selectedFormIds: urlFormIds || defaults.selectedFormIds,
+    };
   }
+}
+
+function urlSelectionValue(selectedIds, allIds) {
+  return selectedIds.length === allIds.length && allIds.every((id) => selectedIds.includes(id))
+    ? URL_ALL_VALUE
+    : selectedIds.join(",");
+}
+
+function syncUrlSelections() {
+  const url = new URL(window.location.href);
+  url.searchParams.set(URL_VERBS_PARAM, urlSelectionValue(state.selectedVerbIds, VERBS.map((verb) => verb.id)));
+  url.searchParams.set(URL_FORMS_PARAM, urlSelectionValue(state.selectedFormIds, FORMS.map((form) => form.id)));
+  window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
 }
 
 function saveState() {
@@ -101,6 +133,7 @@ function saveState() {
   } catch {
     // Continue without persistence when storage is unavailable or full.
   }
+  syncUrlSelections();
 }
 
 function shortcutFragment(...keys) {
@@ -859,5 +892,6 @@ document.addEventListener("keydown", (event) => {
 
 renderKeyboardHint();
 renderContactLink();
+syncUrlSelections();
 render();
 requestAnimationFrame(() => document.querySelector(".answer-input")?.focus());
