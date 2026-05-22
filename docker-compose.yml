@@ -1,0 +1,18 @@
+services:
+  coniugare:
+    build: .
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.coniugare.rule=Host(`coniugare.mmjo.com`)"
+      - "traefik.http.routers.coniugare.entrypoints=websecure"
+      - "traefik.http.routers.coniugare.tls=true"
+      - "traefik.http.routers.coniugare.tls.certresolver=myresolver"
+      - "traefik.http.services.coniugare.loadbalancer.server.port=80"
+      - "traefik.docker.network=traefik"
+
+networks:
+     traefik:
+       external: true
