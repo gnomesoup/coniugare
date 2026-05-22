@@ -35,6 +35,7 @@ const els = {
   quizForm: document.querySelector("#quizForm"),
   hintText: document.querySelector("#hintText"),
   contactLink: document.querySelector("#contactLink"),
+  appVersion: document.querySelector("#appVersion"),
   checkAnswers: document.querySelector("#checkAnswers"),
 };
 
@@ -171,6 +172,17 @@ function renderContactLink() {
     .replace(/[\r\n]/g, "")
     .trim() || DEFAULT_CONTACT_EMAIL;
   els.contactLink.href = `mailto:${email}`;
+}
+
+function renderAppVersion() {
+  const version = typeof window.CONIUGARE_VERSION === "string" ? window.CONIUGARE_VERSION.trim() : "";
+  if (!version) {
+    els.appVersion.hidden = true;
+    return;
+  }
+
+  els.appVersion.hidden = false;
+  els.appVersion.textContent = `Beta v${version}`;
 }
 
 function normalize(value) {
@@ -892,6 +904,7 @@ document.addEventListener("keydown", (event) => {
 
 renderKeyboardHint();
 renderContactLink();
+renderAppVersion();
 syncUrlSelections();
 render();
 requestAnimationFrame(() => document.querySelector(".answer-input")?.focus());

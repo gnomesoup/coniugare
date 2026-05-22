@@ -580,9 +580,14 @@ h2 {
 }
 
 .site-footer a,
+.site-footer .app-version,
 .legal-panel a {
   color: var(--muted);
   text-decoration: none;
+}
+
+.site-footer .app-version {
+  font-weight: 800;
 }
 
 .site-footer a:hover,
@@ -628,7 +633,10 @@ h2 {
   }
 
   .picker-menu {
+    position: static;
+    transform: none;
     width: 100%;
+    margin-top: 0.55rem;
   }
 
   .quiz-toolbar,

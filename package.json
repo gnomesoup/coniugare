@@ -1,0 +1,10 @@
+{
+  "name": "coniugare",
+  "version": "0.1.0-beta.0",
+  "private": true,
+  "description": "A fast, keyboard-friendly Italian verb conjugation quiz.",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "version:sync": "node scripts/write-version.js"
+  }
+}

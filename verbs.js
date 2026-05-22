@@ -9,7 +9,7 @@ const PRONOUNS = [
 
 const FORMS = [
   { id: "presente", it: "presente indicativo", en: "present indicative", hint: "I speak / I am" },
-  { id: "passato_prossimo", it: "passato prossimo", en: "present perfect", hint: "I have spoken / I went" },
+  { id: "passato_prossimo", it: "passato prossimo", en: "recent past", hint: "I spoke / I have spoken" },
   { id: "imperfetto", it: "imperfetto", en: "imperfect", hint: "I used to speak" },
   { id: "futuro", it: "futuro semplice", en: "simple future", hint: "I will speak" },
   { id: "condizionale", it: "condizionale presente", en: "present conditional", hint: "I would speak" },

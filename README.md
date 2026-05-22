@@ -37,6 +37,12 @@ http://localhost:5173
 
 ## Configuration
 
+The app version is read from `version.js` and displayed in the footer. The source version lives in `package.json`; after changing it, run:
+
+```bash
+npm run version:sync
+```
+
 The footer contact address is read from `config.js`. To generate that file from an environment variable, run:
 
 ```bash
@@ -72,19 +78,22 @@ Static hosts that support build commands can run the same command before publish
 ├── index.html      # App markup
 ├── legal.html      # Cookies, privacy, terms, and license notes
 ├── config.js       # Runtime configuration
+├── version.js      # Runtime app version generated from package.json
 ├── styles.css      # Theme and layout
 ├── verbs.js        # Pronouns, form labels, verb data, irregular forms
 ├── conjugation.js  # Regular conjugation generation
 ├── app.js          # State, rendering, and event handling
 ├── scripts/
-│   └── write-config.js
+│   ├── write-config.js
+│   └── write-version.js
+├── package.json
 ├── README.md
 └── LICENSE
 ```
 
 ## Development notes
 
-Coniugare is a dependency-free static web app split into small plain JavaScript files loaded by `index.html`.
+Coniugare is a dependency-free static web app split into small plain JavaScript files loaded by `index.html`. Version tags use the format `v<package.json version>`, for example `v0.1.0-beta.0`.
 
 To add or adjust content, edit:
 
